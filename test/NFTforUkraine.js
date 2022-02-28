@@ -22,6 +22,10 @@ describe("NFTforUkraine", () => {
         expect(await contract.MINT_PRICE()).to.equal(5 * 1e9);
     });
 
+    it("should have set the payee to Ukrainian charity", async () => {
+        expect(await contract.PAYEE_ADDRESS()).to.equal("0x9fecC154ABa86dB310cC3A81bb65f81155d6Bf98");
+    });
+
     it("should mint token", async () => {
         await contract.connect(addr1).mint(1, {value: 5 * 1e9});
 
@@ -84,5 +88,22 @@ describe("NFTforUkraine", () => {
         );
 
         await expect(contract.buy(1, {value: 7 * 1e9})).to.not.be.reverted
+    });
+    
+    it("should transfer mint funds to the payee", async () => {
+        const payeeBalace = await (await ethers.provider.getBalance(await contract.PAYEE_ADDRESS())).toNumber();
+        await contract.mint(1, {value: 5 * 1e9});
+        const newPayeeBalace = await (await ethers.provider.getBalance(await contract.PAYEE_ADDRESS())).toNumber()
+        expect(newPayeeBalace).to.greaterThan(payeeBalace);
+    });
+
+    it("should transfer buy funds to the payee", async () => {
+        await contract.mint(1, {value: 5 * 1e9});
+
+        const payeeBalace = await (await ethers.provider.getBalance(await contract.PAYEE_ADDRESS())).toNumber();
+        await contract.connect(addr1).buy(1, {value: 10 * 1e9});
+
+        const newPayeeBalace = await (await ethers.provider.getBalance(await contract.PAYEE_ADDRESS())).toNumber()
+        expect(newPayeeBalace).to.greaterThan(payeeBalace);
     });
 });

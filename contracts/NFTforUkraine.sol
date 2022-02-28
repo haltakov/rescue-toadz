@@ -2,14 +2,12 @@
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract NFTforUkraine is ERC721, Ownable {
-    using Counters for Counters.Counter;
-
+contract NFTforUkraine is ERC721 {
     uint256 public constant MAX_SUPPLY = 10;
     uint256 public constant MINT_PRICE = 5 gwei;
+    address public constant PAYEE_ADDRESS =
+        0x9fecC154ABa86dB310cC3A81bb65f81155d6Bf98;
 
     mapping(uint256 => uint256) private _lastPrice;
 
@@ -30,6 +28,8 @@ contract NFTforUkraine is ERC721, Ownable {
 
         _safeMint(msg.sender, tokenId);
         _lastPrice[tokenId] = msg.value;
+
+        payable(PAYEE_ADDRESS).transfer(msg.value);
     }
 
     function buy(uint256 tokenId) external payable {
@@ -41,5 +41,7 @@ contract NFTforUkraine is ERC721, Ownable {
 
         _safeTransfer(ownerOf(tokenId), msg.sender, tokenId, "");
         _lastPrice[tokenId] = msg.value;
+
+        payable(PAYEE_ADDRESS).transfer(msg.value);
     }
 }
