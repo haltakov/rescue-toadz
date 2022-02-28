@@ -44,4 +44,12 @@ contract NFTforUkraine is ERC721 {
 
         payable(PAYEE_ADDRESS).transfer(msg.value);
     }
+
+    function lastPrice(uint256 tokenId) external view returns (uint256) {
+        if (!_exists(tokenId)) {
+            return 0;
+        }
+
+        return _lastPrice[tokenId];
+    }
 }

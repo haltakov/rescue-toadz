@@ -68,6 +68,22 @@ describe("NFTforUkraine", () => {
         expect(await contract.tokenURI(1)).to.equal("ipfs://QmcSefU1XkQb4qyGaP3zJyYVVSgocn1JFXGWGUNt6rP32u/1");
     });
 
+    it("should return the last price", async () => {
+        expect(await contract.lastPrice(1)).to.equal(0);
+
+        await contract.mint(1, {value: 5 * 1e9});
+
+        expect(await contract.lastPrice(1)).to.equal(5 * 1e9);
+    });
+
+    it("should update the last price after buy", async () => {
+        await contract.mint(1, {value: 5 * 1e9});
+        await contract.connect(addr1).buy(1, {value: 10 * 1e9});
+
+        expect(await contract.lastPrice(1)).to.equal(10 * 1e9);
+    });
+
+
     it("should not buy token that is not minted", async () => {
         await expect(contract.buy(1, {value: 10 * 1e9})).to.be.revertedWith("VM Exception while processing transaction: reverted with reason string 'Cannot buy a token that is not minted'");
         await contract.mint(1, {value: 5 * 1e9});
