@@ -1,0 +1,33 @@
+{
+    "name": "nft-for-ukraine",
+    "version": "1.0.0",
+    "description": "NFT for Ukraine",
+    "scripts": {
+        "build": "hardhat compile",
+        "test": "hardhat test",
+        "gas": "REPORT_GAS=1 hardhat test",
+        "coverage": "hardhat coverage",
+        "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network rinkeby",
+        "verify:rinkeby": "npx hardhat verify --network rinkeby",
+        "lint": "solhint --max-warnings 0 'contracts/**/*.sol'",
+        "slither": "slither . --exclude-dependencies --exclude-informational --compile-force-framework hardhat"
+    },
+    "author": "Vladimir Haltakov",
+    "license": "MIT",
+    "devDependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.0.2",
+        "@nomiclabs/hardhat-etherscan": "^2.1.7",
+        "@nomiclabs/hardhat-waffle": "^2.0.1",
+        "chai": "^4.3.4",
+        "ethereum-waffle": "^3.4.0",
+        "ethers": "^5.5.1",
+        "hardhat": "^2.6.8",
+        "hardhat-gas-reporter": "^1.0.4",
+        "solidity-coverage": "^0.7.17"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^4.3.3",
+        "dotenv": "^10.0.0",
+        "html-minifier": "^4.0.0"
+    }
+}
