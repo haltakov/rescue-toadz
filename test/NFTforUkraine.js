@@ -61,8 +61,28 @@ describe("NFTforUkraine", () => {
     it("should return the specified tokenURI", async () => {
         await contract.mint(1, {value: 5 * 1e9});
 
-
-
         expect(await contract.tokenURI(1)).to.equal("ipfs://QmcSefU1XkQb4qyGaP3zJyYVVSgocn1JFXGWGUNt6rP32u/1");
+    });
+
+    it("should not buy token that is not minted", async () => {
+        await expect(contract.buy(1, {value: 10 * 1e9})).to.be.revertedWith("VM Exception while processing transaction: reverted with reason string 'Cannot buy a token that is not minted'");
+        await contract.mint(1, {value: 5 * 1e9});
+        await expect(contract.buy(1, {value: 10 * 1e9})).to.not.be.reverted;
+    });
+
+    it("should buy token if a higher price is offered", async () => {
+        await contract.mint(1, {value: 5 * 1e9});
+
+        await expect(contract.connect(addr1).buy(1, {value: 5 * 1e9})).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot buy token without paying more than the last price'"
+        );
+
+        await expect(contract.connect(addr1).buy(1, {value: 6 * 1e9})).to.not.be.reverted
+
+        await expect(contract.buy(1, {value: 6 * 1e9})).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot buy token without paying more than the last price'"
+        );
+
+        await expect(contract.buy(1, {value: 7 * 1e9})).to.not.be.reverted
     });
 });

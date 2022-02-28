@@ -11,6 +11,8 @@ contract NFTforUkraine is ERC721, Ownable {
     uint256 public constant MAX_SUPPLY = 10;
     uint256 public constant MINT_PRICE = 5 gwei;
 
+    mapping(uint256 => uint256) private _lastPrice;
+
     function _baseURI() internal pure override returns (string memory) {
         return "ipfs://QmcSefU1XkQb4qyGaP3zJyYVVSgocn1JFXGWGUNt6rP32u/";
     }
@@ -27,5 +29,17 @@ contract NFTforUkraine is ERC721, Ownable {
         require(msg.value >= MINT_PRICE, "Not enough funds to mint token");
 
         _safeMint(msg.sender, tokenId);
+        _lastPrice[tokenId] = msg.value;
+    }
+
+    function buy(uint256 tokenId) external payable {
+        require(_exists(tokenId), "Cannot buy a token that is not minted");
+        require(
+            msg.value > _lastPrice[tokenId],
+            "Cannot buy token without paying more than the last price"
+        );
+
+        _safeTransfer(ownerOf(tokenId), msg.sender, tokenId, "");
+        _lastPrice[tokenId] = msg.value;
     }
 }
