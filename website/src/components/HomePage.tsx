@@ -103,7 +103,7 @@ const HomePage = () => {
                             Yes! 100% of the funds for minting or buying the NFT, as well as 100% of the secondary sales
                             are transfered to charity directly in the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0xDd061BBa57121914788798500E624CBA4900cb32#code"
+                                href="https://rinkeby.etherscan.io/address/0xD6E8Be3A4C0dcaA6430B3dE9549591EE0F3EC21c#code"
                                 target="_blank"
                             >
                                 smart contract
