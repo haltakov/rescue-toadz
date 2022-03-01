@@ -5,8 +5,8 @@ export const FooterContainer = styled.div`
     text-center
     text-gray-400
     font-light
-    pt-6
+    py-4
     border-t border-gray-600
-    px-64
+    px-2 md:px-64
     `}
 `;
