@@ -29,7 +29,7 @@ describe("NFTforUkraine", () => {
     it("should mint token", async () => {
         await contract.connect(addr1).mint(1, { value: 5 * 1e9 });
 
-        expect(await contract.ownerOf(1)).to.equal(addr1.address);
+        expect(await contract.balanceOf(addr1.address, 1)).to.equal(1);
     });
 
     it("should not mint more than max supply", async () => {
@@ -65,7 +65,7 @@ describe("NFTforUkraine", () => {
     it("should return the specified tokenURI", async () => {
         await contract.mint(1, { value: 5 * 1e9 });
 
-        expect(await contract.tokenURI(1)).to.equal("ipfs://QmbhQZVeDDPfiVYzmFb3VPH7g3WUbp2WmoTY3DHKnRtJtz/1");
+        expect(await contract.uri(1)).to.equal("ipfs://QmbhQZVeDDPfiVYzmFb3VPH7g3WUbp2WmoTY3DHKnRtJtz/1");
     });
 
     it("should return the last price", async () => {
