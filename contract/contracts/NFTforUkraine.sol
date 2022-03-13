@@ -18,7 +18,7 @@ contract NFTforUkraine is ERC1155, ERC1155Supply {
     mapping(uint256 => address) private _owner;
 
     constructor()
-        ERC1155("ipfs://QmbhQZVeDDPfiVYzmFb3VPH7g3WUbp2WmoTY3DHKnRtJtz/")
+        ERC1155("ipfs://QmUsn9qqDbzYC5rMVdcvPk3yhRhPsPLh2Um2NmCHtdRUKQ/")
     {}
 
     function mint(uint256 tokenId) external payable {
@@ -44,6 +44,7 @@ contract NFTforUkraine is ERC1155, ERC1155Supply {
             "Cannot capture token without paying more than the last price"
         );
 
+        _mint(_owner[tokenId], MAX_SUPPLY + tokenId, 1, "");
         _safeTransferFrom(_owner[tokenId], msg.sender, tokenId, 1, "");
         _owner[tokenId] = msg.sender;
         _lastPrice[tokenId] = msg.value;
