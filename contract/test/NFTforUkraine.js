@@ -65,7 +65,7 @@ describe("NFTforUkraine", () => {
     it("should return the specified tokenURI", async () => {
         await contract.mint(1, { value: 5 * 1e9 });
 
-        expect(await contract.uri(1)).to.equal("ipfs://QmbhQZVeDDPfiVYzmFb3VPH7g3WUbp2WmoTY3DHKnRtJtz/1");
+        expect(await contract.uri(1)).to.equal("ipfs://QmUsn9qqDbzYC5rMVdcvPk3yhRhPsPLh2Um2NmCHtdRUKQ/1");
     });
 
     it("should return the last price", async () => {
@@ -122,5 +122,35 @@ describe("NFTforUkraine", () => {
 
         const newPayeeBalace = await (await ethers.provider.getBalance(await contract.PAYEE_ADDRESS())).toNumber();
         expect(newPayeeBalace).to.greaterThan(payeeBalace);
+    });
+
+    it("should no create POAP before capture", async () => {
+        expect(await contract.totalSupply(4)).to.equal(0);
+
+        await contract.mint(1, { value: 5 * 1e9 });
+
+        expect(await contract.totalSupply(4)).to.equal(0);
+
+        await contract.connect(addr1).capture(1, { value: 10 * 1e9 });
+
+        expect(await contract.totalSupply(4)).to.equal(1);
+        expect(await contract.balanceOf(owner.address, 4)).to.equal(1);
+    });
+
+    it("should create POAP with correct token ID", async () => {
+        expect(await contract.totalSupply(4)).to.equal(0);
+        await contract.mint(1, { value: 5 * 1e9 });
+        await contract.connect(addr1).capture(1, { value: 10 * 1e9 });
+        expect(await contract.totalSupply(4)).to.equal(1);
+
+        expect(await contract.totalSupply(5)).to.equal(0);
+        await contract.mint(2, { value: 5 * 1e9 });
+        await contract.connect(addr1).capture(2, { value: 10 * 1e9 });
+        expect(await contract.totalSupply(5)).to.equal(1);
+
+        expect(await contract.totalSupply(6)).to.equal(0);
+        await contract.mint(3, { value: 5 * 1e9 });
+        await contract.connect(addr1).capture(3, { value: 10 * 1e9 });
+        expect(await contract.totalSupply(6)).to.equal(1);
     });
 });
