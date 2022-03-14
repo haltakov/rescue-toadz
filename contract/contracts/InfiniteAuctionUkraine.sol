@@ -5,13 +5,15 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract NFTforUkraine is ERC1155, ERC1155Supply {
+contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     using Strings for uint256;
 
     uint256 public constant MAX_SUPPLY = 3;
     uint256 public constant MINT_PRICE = 5 gwei;
     address public constant PAYEE_ADDRESS =
         0x165CD37b4C644C2921454429E7F9358d18A45e14;
+
+    string public constant name = "Infinite Auction for Ukraine";
 
     mapping(uint256 => uint256) private _lastPrice;
 

@@ -2,16 +2,16 @@ const { BigNumber } = require("@ethersproject/bignumber");
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("NFTforUkraine", () => {
-    let NFTforUkraine;
+describe("InfiniteAuctionUkraine", () => {
+    let InfiniteAuctionUkraine;
     let contract;
     let owner;
     let addr1;
 
     beforeEach(async function () {
-        NFTforUkraine = await ethers.getContractFactory("NFTforUkraine");
+        InfiniteAuctionUkraine = await ethers.getContractFactory("InfiniteAuctionUkraine");
         [owner, addr1, addr2] = await ethers.getSigners();
-        contract = await NFTforUkraine.deploy();
+        contract = await InfiniteAuctionUkraine.deploy();
     });
 
     it("should have a max supply of 10", async () => {
