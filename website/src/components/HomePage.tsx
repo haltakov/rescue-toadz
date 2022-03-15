@@ -1,5 +1,6 @@
 import {
     Collection,
+    ConnectWallet,
     Explanation,
     FAQ,
     MainContainer,
@@ -7,6 +8,9 @@ import {
     NFTButtonContainer,
     QuestionsContainer,
 } from "./HomePage.styles";
+
+import { ethers } from "ethers";
+import React from "react";
 
 const COLLECTION_SIZE = 3;
 
@@ -27,9 +31,31 @@ const createCollection = (): NFT[] => {
 };
 
 const HomePage = () => {
+    const [signer, setSigner] = React.useState<ethers.providers.JsonRpcSigner | null>(null);
+    const [address, setAddress] = React.useState<string>("");
+
     const collection = createCollection();
 
-    console.log(collection);
+    const connectWallet = async () => {
+        const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+
+        try {
+            await provider.send("eth_requestAccounts", []);
+
+            if ((await provider.getNetwork()).name !== "rinkeby") {
+                await (window as any).ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{ chainId: "0x4" }],
+                });
+            }
+
+            const currentSigner = provider.getSigner();
+            setSigner(currentSigner);
+            setAddress(await currentSigner.getAddress());
+        } catch (error) {
+            // ...
+        }
+    };
 
     return (
         <MainContainer>
@@ -47,6 +73,25 @@ const HomePage = () => {
                     Can you <strong>hodl</strong> to your NFT without anybody outpaying you?
                 </p>
             </Explanation>
+
+            <ConnectWallet>
+                {!signer && <button onClick={connectWallet}>Connect wallet</button>}
+
+                {signer && (
+                    <p>
+                        Connected wallet: {address} (
+                        <a
+                            onClick={() => {
+                                setSigner(null);
+                                setAddress("");
+                            }}
+                        >
+                            disconnect
+                        </a>
+                        )
+                    </p>
+                )}
+            </ConnectWallet>
 
             <Collection>
                 {collection.map((nft) => (
