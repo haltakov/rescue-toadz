@@ -77,6 +77,7 @@ export const NFTButtonContainer = styled.div`
         rounded-md
         mr-1
         border-0
+        text-gray-800
         `}
     }
 

@@ -9,32 +9,87 @@ import {
     QuestionsContainer,
 } from "./HomePage.styles";
 
-import { ethers } from "ethers";
+import CONTRACT_ABI from "./contract_abi.json";
+
+import { BigNumber, ethers } from "ethers";
 import React from "react";
 
 const COLLECTION_SIZE = 3;
+const CONTRACT = "0xEf44dedA5A7e81F156D7dd64c19CD3117b19f042";
 
 type NFT = {
     id: number;
     name: string;
     image: string;
     link: string;
+    lastPrice: number;
 };
 
 const createCollection = (): NFT[] => {
     return Array.from(Array(COLLECTION_SIZE).keys()).map((id) => ({
         id: id + 1,
         name: `Infinite Auction for Ukraine #${id + 1}`,
-        image: `/nft/ukraine${id + 1}.jpg`,
-        link: `https://opensea.io/assets/0x000000000000000000000000000/${id + 1}`,
+        image: `/nft/${id + 1}.png`,
+        link: `https://opensea.io/assets/${CONTRACT}/${id + 1}`,
+        lastPrice: 0,
     }));
+};
+
+const updateCollection = async (collection: NFT[], contract: ethers.Contract): Promise<NFT[]> => {
+    return Promise.all(
+        collection.map(async (nft) => {
+            const lastPrice = await contract.lastPrice(nft.id);
+            return { ...nft, lastPrice: lastPrice.toNumber() };
+        })
+    );
+};
+
+const mintToken = async (
+    id: number,
+    signer: ethers.providers.JsonRpcSigner | null,
+    contract: ethers.Contract | null
+) => {
+    if (contract && signer) {
+        const tx = await contract.connect(signer).mint(id, { value: await contract.MINT_PRICE() });
+        console.log(tx);
+    }
+};
+
+const captureToken = async (
+    id: number,
+    value: number,
+    signer: ethers.providers.JsonRpcSigner | null,
+    contract: ethers.Contract | null
+) => {
+    if (contract && signer) {
+        const tx = await contract.connect(signer).capture(id, { value: value });
+        console.log(tx);
+    }
 };
 
 const HomePage = () => {
     const [signer, setSigner] = React.useState<ethers.providers.JsonRpcSigner | null>(null);
     const [address, setAddress] = React.useState<string>("");
+    const [contract, setContract] = React.useState<ethers.Contract | null>(null);
+    const [collection, setCollection] = React.useState<NFT[]>(createCollection());
 
-    const collection = createCollection();
+    const inputRefs = Array.from(Array(COLLECTION_SIZE).keys()).map((id) => React.useRef<HTMLInputElement>(null));
+
+    React.useEffect(() => {
+        (async () => {
+            let currentContract = contract;
+
+            if (!currentContract) {
+                const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+                currentContract = new ethers.Contract(CONTRACT, CONTRACT_ABI, provider);
+                setContract(currentContract);
+            }
+
+            const updatedCollection = await updateCollection(collection, currentContract);
+            console.log(updatedCollection);
+            setCollection(updatedCollection);
+        })();
+    }, []);
 
     const connectWallet = async () => {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
@@ -53,7 +108,7 @@ const HomePage = () => {
             setSigner(currentSigner);
             setAddress(await currentSigner.getAddress());
         } catch (error) {
-            // ...
+            console.log(error);
         }
     };
 
@@ -99,11 +154,28 @@ const HomePage = () => {
                         <h3>{nft.name}</h3>
                         <img src={nft.image} alt={nft.name} />
                         <NFTButtonContainer>
-                            {nft.id == 3 && <button>Mint</button>}
-                            {nft.id < 3 && (
+                            {nft.lastPrice === 0 && (
+                                <button onClick={async () => await mintToken(nft.id, signer, contract)}>Mint</button>
+                            )}
+                            {nft.lastPrice !== 0 && (
                                 <>
-                                    <input type="text" placeholder="Min. price 0.10 ETH" />
-                                    <button>Capture</button>
+                                    <input
+                                        ref={inputRefs[nft.id - 1]}
+                                        type="text"
+                                        placeholder={`Min. price ${ethers.utils.formatEther(nft.lastPrice)} ETH`}
+                                    />
+                                    <button
+                                        onClick={async () =>
+                                            await captureToken(
+                                                nft.id,
+                                                parseFloat(inputRefs[nft.id - 1].current?.value || "") * 1e18,
+                                                signer,
+                                                contract
+                                            )
+                                        }
+                                    >
+                                        Capture
+                                    </button>
                                 </>
                             )}
                         </NFTButtonContainer>
