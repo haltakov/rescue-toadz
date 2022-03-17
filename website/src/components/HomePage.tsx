@@ -7,6 +7,7 @@ import {
     NFT,
     NFTButtonContainer,
     QuestionsContainer,
+    Notification,
 } from "./HomePage.styles";
 
 import CONTRACT_ABI from "./contract_abi.json";
@@ -22,7 +23,12 @@ type NFT = {
     name: string;
     image: string;
     link: string;
-    lastPrice: number;
+    lastPrice: BigNumber;
+};
+
+type NotificationMessage = {
+    type: "success" | "error";
+    message: string;
 };
 
 const createCollection = (): NFT[] => {
@@ -31,7 +37,7 @@ const createCollection = (): NFT[] => {
         name: `Infinite Auction for Ukraine #${id + 1}`,
         image: `/nft/${id + 1}.png`,
         link: `https://opensea.io/assets/${CONTRACT}/${id + 1}`,
-        lastPrice: 0,
+        lastPrice: BigNumber.from(0),
     }));
 };
 
@@ -39,7 +45,7 @@ const updateCollection = async (collection: NFT[], contract: ethers.Contract): P
     return Promise.all(
         collection.map(async (nft) => {
             const lastPrice = await contract.lastPrice(nft.id);
-            return { ...nft, lastPrice: lastPrice.toNumber() };
+            return { ...nft, lastPrice: lastPrice };
         })
     );
 };
@@ -48,23 +54,41 @@ const mintToken = async (
     id: number,
     signer: ethers.providers.JsonRpcSigner | null,
     contract: ethers.Contract | null
-) => {
+): Promise<boolean> => {
     if (contract && signer) {
-        const tx = await contract.connect(signer).mint(id, { value: await contract.MINT_PRICE() });
-        console.log(tx);
+        try {
+            const tx = await contract.connect(signer).mint(id, { value: await contract.MINT_PRICE() });
+            const receipt = await tx.wait();
+
+            return receipt.status === 1;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
+
+    return false;
 };
 
 const captureToken = async (
     id: number,
-    value: number,
+    value: BigNumber,
     signer: ethers.providers.JsonRpcSigner | null,
     contract: ethers.Contract | null
-) => {
-    if (contract && signer) {
-        const tx = await contract.connect(signer).capture(id, { value: value });
-        console.log(tx);
+): Promise<boolean> => {
+    try {
+        if (contract && signer) {
+            const tx = await contract.connect(signer).capture(id, { value: value });
+            const receipt = await tx.wait();
+
+            return receipt.status === 1;
+        }
+    } catch (error) {
+        console.log(error);
+        return false;
     }
+
+    return false;
 };
 
 const HomePage = () => {
@@ -72,26 +96,14 @@ const HomePage = () => {
     const [address, setAddress] = React.useState<string>("");
     const [contract, setContract] = React.useState<ethers.Contract | null>(null);
     const [collection, setCollection] = React.useState<NFT[]>(createCollection());
+    const [loadingButton, setLoadingButton] = React.useState<number>(0);
+    const [notificationMessage, setNotificationMessage] = React.useState<NotificationMessage | null>(null);
 
     const inputRefs = Array.from(Array(COLLECTION_SIZE).keys()).map((id) => React.useRef<HTMLInputElement>(null));
 
-    React.useEffect(() => {
-        (async () => {
-            let currentContract = contract;
+    const connectWallet = React.useCallback(async () => {
+        if (signer) return signer;
 
-            if (!currentContract) {
-                const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-                currentContract = new ethers.Contract(CONTRACT, CONTRACT_ABI, provider);
-                setContract(currentContract);
-            }
-
-            const updatedCollection = await updateCollection(collection, currentContract);
-            console.log(updatedCollection);
-            setCollection(updatedCollection);
-        })();
-    }, []);
-
-    const connectWallet = async () => {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
 
         try {
@@ -107,10 +119,58 @@ const HomePage = () => {
             const currentSigner = provider.getSigner();
             setSigner(currentSigner);
             setAddress(await currentSigner.getAddress());
+
+            return currentSigner;
         } catch (error) {
             console.log(error);
+            return null;
         }
-    };
+    }, []);
+
+    const handleContractInteractionButton = React.useCallback(
+        async (
+            nftId: number,
+            contractFunction: (signer: ethers.providers.JsonRpcSigner | null) => Promise<boolean>,
+            successMessage: string,
+            errorMessage: string
+        ) => {
+            setLoadingButton(nftId);
+
+            const currentSigner = await connectWallet();
+            const result = await contractFunction(currentSigner);
+
+            if (result) {
+                setNotificationMessage({
+                    type: "success",
+                    message: successMessage,
+                });
+            } else {
+                setNotificationMessage({
+                    type: "error",
+                    message: errorMessage,
+                });
+            }
+            setTimeout(() => setNotificationMessage(null), 5000);
+
+            setLoadingButton(0);
+        },
+        []
+    );
+
+    React.useEffect(() => {
+        (async () => {
+            let currentContract = contract;
+
+            if (!currentContract) {
+                const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+                currentContract = new ethers.Contract(CONTRACT, CONTRACT_ABI, provider);
+                setContract(currentContract);
+            }
+
+            const updatedCollection = await updateCollection(collection, currentContract);
+            setCollection(updatedCollection);
+        })();
+    }, []);
 
     return (
         <MainContainer>
@@ -154,10 +214,22 @@ const HomePage = () => {
                         <h3>{nft.name}</h3>
                         <img src={nft.image} alt={nft.name} />
                         <NFTButtonContainer>
-                            {nft.lastPrice === 0 && (
-                                <button onClick={async () => await mintToken(nft.id, signer, contract)}>Mint</button>
+                            {nft.lastPrice.eq(0) && (
+                                <button
+                                    onClick={async () => {
+                                        handleContractInteractionButton(
+                                            nft.id,
+                                            (signer) => mintToken(nft.id, signer, contract),
+                                            "Token minted successfully",
+                                            "Minting failed"
+                                        );
+                                    }}
+                                    disabled={loadingButton === nft.id}
+                                >
+                                    {loadingButton === nft.id ? "Loading..." : "Mint"}
+                                </button>
                             )}
-                            {nft.lastPrice !== 0 && (
+                            {!nft.lastPrice.eq(0) && (
                                 <>
                                     <input
                                         ref={inputRefs[nft.id - 1]}
@@ -165,16 +237,30 @@ const HomePage = () => {
                                         placeholder={`Min. price ${ethers.utils.formatEther(nft.lastPrice)} ETH`}
                                     />
                                     <button
-                                        onClick={async () =>
-                                            await captureToken(
-                                                nft.id,
-                                                parseFloat(inputRefs[nft.id - 1].current?.value || "") * 1e18,
-                                                signer,
-                                                contract
-                                            )
-                                        }
+                                        onClick={async () => {
+                                            const userValue = ethers.utils.parseUnits(
+                                                inputRefs[nft.id - 1].current?.value || "0",
+                                                "ether"
+                                            );
+
+                                            if (userValue < nft.lastPrice) {
+                                                setNotificationMessage({
+                                                    type: "error",
+                                                    message: "You need to pay more than the last price",
+                                                });
+                                                setTimeout(() => setNotificationMessage(null), 5000);
+                                            } else {
+                                                handleContractInteractionButton(
+                                                    nft.id,
+                                                    (signer) => captureToken(nft.id, userValue, signer, contract),
+                                                    "Token captured successfully",
+                                                    "Capture failed"
+                                                );
+                                            }
+                                        }}
+                                        disabled={loadingButton === nft.id}
                                     >
-                                        Capture
+                                        {loadingButton === nft.id ? "Loading..." : "Capture"}
                                     </button>
                                 </>
                             )}
@@ -244,6 +330,10 @@ const HomePage = () => {
                     </div>
                 </QuestionsContainer>
             </FAQ>
+
+            <Notification>
+                {notificationMessage && <div className={notificationMessage.type}>{notificationMessage.message}</div>}
+            </Notification>
         </MainContainer>
     );
 };

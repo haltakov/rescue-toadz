@@ -165,3 +165,38 @@ export const ConnectWallet = styled.div`
         `}
     }
 `;
+
+export const Notification = styled.div`
+    ${tw`
+    fixed
+    top-0
+    right-0
+    m-4
+    `}
+
+    div {
+        ${tw`
+        mt-4
+        p-6
+        rounded
+        transition
+        duration-500
+        text-xl
+        font-light
+        `}
+    }
+
+    .error {
+        ${tw`
+        bg-red-200
+        text-red-900
+        `}
+    }
+
+    .success {
+        ${tw`
+        bg-green-200
+        text-green-900
+        `}
+    }
+`;
