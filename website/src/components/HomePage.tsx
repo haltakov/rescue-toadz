@@ -15,7 +15,7 @@ import React from "react";
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
 import { Link } from "react-router-dom";
 
-const CONTRACT = "0xEf44dedA5A7e81F156D7dd64c19CD3117b19f042";
+const CONTRACT = "0x1Fce02c44E51843a142B9a0d909FEe6c43E70549";
 
 const COLLECTION_SIZE = 12;
 
