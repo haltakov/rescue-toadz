@@ -13,6 +13,7 @@ import {
 import { BigNumber, ethers } from "ethers";
 import React from "react";
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
+import { Link } from "react-router-dom";
 
 const CONTRACT = "0xEf44dedA5A7e81F156D7dd64c19CD3117b19f042";
 
@@ -167,7 +168,21 @@ const HomePage = () => {
                 {collection.map((nft) => (
                     <NFT key={nft.id}>
                         <h3>{nft.name}</h3>
-                        <img src={nft.image} alt={nft.name} />
+                        {nft.lastPrice.gt(0) && (
+                            <a target="_blank" href={`https://testnets.opensea.io/assets/${CONTRACT}/${nft.id}`}>
+                                <img src={nft.image} alt={nft.name} />
+                            </a>
+                        )}
+                        {!nft.lastPrice.gt(0) && <img src={nft.image} alt={nft.name} />}
+                        <h4>
+                            {!nft.lastPrice.eq(0) && (
+                                <>
+                                    Last bought by{" "}
+                                    <a href={`https://testnets.opensea.io/assets/${CONTRACT}/${nft.id}`}>0x00000</a> for{" "}
+                                    <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
+                                </>
+                            )}
+                        </h4>
                         <NFTButtonContainer>
                             {nft.lastPrice.eq(0) && (
                                 <button onClick={() => handleMintButton(nft.id)} disabled={loadingButton === nft.id}>
@@ -179,7 +194,7 @@ const HomePage = () => {
                                     <input
                                         ref={inputRefs[nft.id - 1]}
                                         type="text"
-                                        placeholder={`Min. price ${ethers.utils.formatEther(nft.lastPrice)} ETH`}
+                                        placeholder={`${ethers.utils.formatEther(nft.lastPrice)} ETH`}
                                     />
                                     <button
                                         onClick={() => handleCaptureButton(nft.id, nft.lastPrice)}

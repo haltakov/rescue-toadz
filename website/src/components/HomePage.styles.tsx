@@ -45,6 +45,14 @@ export const NFT = styled.div`
         `}
     }
 
+    h4 {
+        ${tw`
+        font-thin
+        text-base
+        h-6
+        `}
+    }
+
     img {
         ${tw`
         py-2
