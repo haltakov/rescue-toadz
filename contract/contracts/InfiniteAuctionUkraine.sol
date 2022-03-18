@@ -8,8 +8,8 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     using Strings for uint256;
 
-    uint256 public constant MAX_SUPPLY = 3;
-    uint256 public constant MINT_PRICE = 5 gwei;
+    uint256 public constant MAX_SUPPLY = 12;
+    uint256 public constant MINT_PRICE = 5000000 gwei;
     address public constant PAYEE_ADDRESS =
         0x165CD37b4C644C2921454429E7F9358d18A45e14;
 
@@ -20,7 +20,7 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     mapping(uint256 => address) private _owner;
 
     constructor()
-        ERC1155("ipfs://QmUsn9qqDbzYC5rMVdcvPk3yhRhPsPLh2Um2NmCHtdRUKQ/")
+        ERC1155("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/")
     {}
 
     function mint(uint256 tokenId) external payable {
@@ -60,6 +60,14 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         }
 
         return _lastPrice[tokenId];
+    }
+
+    function owner(uint256 tokenId) external view returns (address) {
+        if (!exists(tokenId)) {
+            return address(0);
+        }
+
+        return _owner[tokenId];
     }
 
     function uri(uint256 tokenId)
