@@ -16,7 +16,7 @@ import { ContractHandler, useContractHandler } from "./SmartContract/SmartContra
 
 const CONTRACT = "0xEf44dedA5A7e81F156D7dd64c19CD3117b19f042";
 
-const COLLECTION_SIZE = 3;
+const COLLECTION_SIZE = 12;
 
 type NFT = {
     id: number;
@@ -35,7 +35,7 @@ const createCollection = (): NFT[] => {
     return Array.from(Array(COLLECTION_SIZE).keys()).map((id) => ({
         id: id + 1,
         name: `Infinite Auction for Ukraine #${id + 1}`,
-        image: `/nft/${id + 1}.png`,
+        image: `/nft/${id + 1}.jpg`,
         link: `https://opensea.io/assets/${CONTRACT}/${id + 1}`,
         lastPrice: BigNumber.from(0),
     }));
