@@ -36,7 +36,7 @@ type NotificationMessage = {
 const createCollection = (): NFT[] => {
     return Array.from(Array(COLLECTION_SIZE).keys()).map((id) => ({
         id: id + 1,
-        name: `Infinite Auction for Ukraine #${id + 1}`,
+        name: `Ukraine Toad #${id + 1}`,
         image: `/nft/${id + 1}.jpg`,
         link: `https://opensea.io/assets/${CONTRACT}/${id + 1}`,
         lastPrice: BigNumber.from(0),
@@ -97,7 +97,7 @@ const HomePage = () => {
         handleContractInteractionButton(
             id,
             () => contractHandler.mintToken(id),
-            "Token minted successfully",
+            "Toad minted successfully",
             "Minting failed"
         );
     }, []);
@@ -108,15 +108,15 @@ const HomePage = () => {
         if (userValue.lt(lastPrice)) {
             setNotificationMessage({
                 type: "error",
-                message: "You need to pay more than the last price",
+                message: "You need to donate more than the last donation",
             });
             setTimeout(() => setNotificationMessage(null), 5000);
         } else {
             handleContractInteractionButton(
                 id,
                 () => contractHandler.captureToken(id, userValue),
-                "Token captured successfully",
-                "Capture failed"
+                "Toad lured successfully",
+                "Luring failed"
             );
         }
     }, []);
@@ -131,16 +131,14 @@ const HomePage = () => {
         <MainContainer>
             <Explanation>
                 <p>
-                    <strong>Mint</strong> any NFT you like.{" "}
+                    <strong>Mint</strong> any toad donating 100% of the funds to Ukraine.
                 </p>
                 <p>
-                    <strong>Capture</strong> a minted NFT by paying more.{" "}
+                    <strong>Lure</strong> any toad in your wallet by donating more than the previous owner.
                 </p>
                 <p>
-                    Anybody can <strong>capture</strong> your NFT by paying more.
-                </p>
-                <p>
-                    Can you <strong>hodl</strong> to your NFT without anybody outpaying you?
+                    If your toad hops to another wallet, it will <strong>drop its glasses</strong> an NFT memento for
+                    your donation.
                 </p>
             </Explanation>
 
@@ -179,11 +177,11 @@ const HomePage = () => {
                         <h4>
                             {!nft.lastPrice.eq(0) && (
                                 <>
-                                    Last bought by{" "}
+                                    Owned by{" "}
                                     <a href={`https://testnets.opensea.io/assets/${CONTRACT}/${nft.id}`}>
                                         {nft.owner.slice(2, 8).toUpperCase()}
                                     </a>{" "}
-                                    for <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
+                                    for donating <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
                                 </>
                             )}
                         </h4>
@@ -204,7 +202,7 @@ const HomePage = () => {
                                         onClick={() => handleCaptureButton(nft.id, nft.lastPrice)}
                                         disabled={loadingButton === nft.id}
                                     >
-                                        {loadingButton === nft.id ? "Capturing..." : "Capture"}
+                                        {loadingButton === nft.id ? "Luring..." : "Lure"}
                                     </button>
                                 </>
                             )}
@@ -217,24 +215,25 @@ const HomePage = () => {
                 <h3>FAQ</h3>
                 <QuestionsContainer>
                     <div>
-                        <h4>How can someone take my NFT?</h4>
+                        <h4>How can my toad hop in another wallet?</h4>
                         <p>
-                            This is a novel feature coded directly in the smart contract. As soon as somebody pays more
-                            fot the NFT it will be transferred to their wallet.
+                            This is a novel mechanics we implemented. When somebody donates more for your toad than what
+                            you donated, it will hop into the other wallet.
                         </p>
                     </div>
                     <div>
-                        <h4>Can I make money from this?</h4>
+                        <h4>So, I will not own the toad anymore?</h4>
                         <p>
-                            No. All funds from sales will automatically be transfered to the Ukraine wallet. Consider
-                            all the money you pay as a donation.
+                            Yes. Your toad will be automatically transwered into the wallet that donated more. However,
+                            it will drop its glasses as a memento for your donation.
                         </p>
                     </div>
                     <div>
-                        <h4>Why should I buy your NFT??</h4>
-                        <p>There are two reasons:</p>
-                        <p>1. You help Ukrain recover from the war.</p>
-                        <p>2. You keep the NFT if nobody pays more than you for it.</p>
+                        <h4>Why should I mint or buy a toad?</h4>
+                        <p>
+                            Because 100% of the funds from minting or luring toadz are used as donations for
+                            humanitarian help in Ukraine. And you get an NFT as a certificate of your donation.
+                        </p>
                     </div>
 
                     <div>
@@ -245,31 +244,23 @@ const HomePage = () => {
                         </p>
                     </div>
                     <div>
-                        <h4>Are all funds donated to Ukraine?</h4>
+                        <h4>How am I sure all funds go to Ukraine?</h4>
                         <p>
-                            Yes! 100% of the funds for minting or buying the NFT, as well as 100% of the secondary sales
-                            are transfered to charity directly in the{" "}
+                            100% of the funds for minting or luring toadz, are automatically donated directly in the{" "}
                             <a
                                 href="https://rinkeby.etherscan.io/address/0xD6E8Be3A4C0dcaA6430B3dE9549591EE0F3EC21c#code"
                                 target="_blank"
                             >
                                 smart contract
                             </a>
-                            .
+                            . No need to trust us, trust the code!
                         </p>
                     </div>
                     <div>
                         <h4>Where do the funds go?</h4>
-                        <p>All funds are transfered to the official Ukrainian Ethereum donations wallet:</p>
                         <p>
-                            <small>0x165CD37b4C644C2921454429E7F9358d18A45e14</small>.
-                        </p>
-                        <p>
-                            See{" "}
-                            <a href="https://twitter.com/Ukraine/status/1497594592438497282" target="_blank">
-                                this tweet
-                            </a>{" "}
-                            for details.
+                            All funds are used for humanitarian help by donating them to ... (Still need to choose the
+                            exact organization)
                         </p>
                     </div>
                 </QuestionsContainer>
