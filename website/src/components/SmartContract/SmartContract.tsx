@@ -3,13 +3,14 @@ import { BigNumber, Contract, Signer, ethers } from "ethers";
 
 import CONTRACT_ABI from "../contract_abi.json";
 
-const CONTRACT = "0x1Fce02c44E51843a142B9a0d909FEe6c43E70549";
+export const CONTRACT = "0x1Fce02c44E51843a142B9a0d909FEe6c43E70549";
 
 export interface ContractHandler {
     hasSigner: () => boolean;
     connectWallet: () => Promise<string>;
     disconnectWallet: () => void;
     lastPrice: (id: number) => Promise<BigNumber>;
+    owner: (id: number) => Promise<string>;
     mintToken: (id: number) => Promise<boolean>;
     captureToken: (id: number, value: BigNumber) => Promise<boolean>;
 }
@@ -53,6 +54,10 @@ export const useContractHandler = (): ContractHandler => {
                 if (!contract) return BigNumber.from(0);
 
                 return await contract.lastPrice(id);
+            },
+
+            owner: async (id: number) => {
+                return await contract.owner(id);
             },
 
             mintToken: async (id) => {

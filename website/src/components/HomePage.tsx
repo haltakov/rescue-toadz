@@ -1,3 +1,8 @@
+import React from "react";
+import { BigNumber, ethers } from "ethers";
+
+import { CONTRACT } from "./SmartContract/SmartContract";
+
 import {
     Collection,
     ConnectWallet,
@@ -10,12 +15,7 @@ import {
     Notification,
 } from "./HomePage.styles";
 
-import { BigNumber, ethers } from "ethers";
-import React from "react";
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
-import { Link } from "react-router-dom";
-
-const CONTRACT = "0x1Fce02c44E51843a142B9a0d909FEe6c43E70549";
 
 const COLLECTION_SIZE = 12;
 
@@ -25,6 +25,7 @@ type NFT = {
     image: string;
     link: string;
     lastPrice: BigNumber;
+    owner: string;
 };
 
 type NotificationMessage = {
@@ -39,6 +40,7 @@ const createCollection = (): NFT[] => {
         image: `/nft/${id + 1}.jpg`,
         link: `https://opensea.io/assets/${CONTRACT}/${id + 1}`,
         lastPrice: BigNumber.from(0),
+        owner: "0x0000000000000000000000000000000000000000",
     }));
 };
 
@@ -46,8 +48,8 @@ const updateCollection = async (collection: NFT[], contractHandler: ContractHand
     return Promise.all(
         collection.map(async (nft) => {
             const lastPrice = await contractHandler.lastPrice(nft.id);
-            console.log(lastPrice);
-            return { ...nft, lastPrice: lastPrice };
+            const owner = await contractHandler.owner(nft.id);
+            return { ...nft, lastPrice: lastPrice, owner: owner };
         })
     );
 };
@@ -103,7 +105,7 @@ const HomePage = () => {
     const handleCaptureButton = React.useCallback(async (id: number, lastPrice: BigNumber) => {
         const userValue = ethers.utils.parseUnits(inputRefs[id - 1].current?.value || "0", "ether");
 
-        if (userValue < lastPrice) {
+        if (userValue.lt(lastPrice)) {
             setNotificationMessage({
                 type: "error",
                 message: "You need to pay more than the last price",
@@ -178,8 +180,10 @@ const HomePage = () => {
                             {!nft.lastPrice.eq(0) && (
                                 <>
                                     Last bought by{" "}
-                                    <a href={`https://testnets.opensea.io/assets/${CONTRACT}/${nft.id}`}>0x00000</a> for{" "}
-                                    <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
+                                    <a href={`https://testnets.opensea.io/assets/${CONTRACT}/${nft.id}`}>
+                                        {nft.owner.slice(2, 8).toUpperCase()}
+                                    </a>{" "}
+                                    for <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
                                 </>
                             )}
                         </h4>
