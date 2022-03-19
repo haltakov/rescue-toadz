@@ -24,3 +24,18 @@ export const HeaderContainer = styled.div`
         `}
     }
 `;
+
+export const OpenseaLink = styled.div`
+    ${tw`
+    absolute md:fixed
+    top-0
+    right-0
+    m-2 md:m-3 lg:m-6 xl:m-8
+    `}
+
+    svg {
+        ${tw`
+            w-8 md:w-10 lg:w-16
+        `}
+    }
+`;
