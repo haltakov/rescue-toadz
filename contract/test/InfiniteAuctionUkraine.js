@@ -35,9 +35,9 @@ describe("InfiniteAuctionUkraine", () => {
     });
 
     it("should get the owner of a token", async () => {
-        expect(await contract.owner(0)).to.equal("0x0000000000000000000000000000000000000000");
-        expect(await contract.owner(1)).to.equal("0x0000000000000000000000000000000000000000");
-        expect(await contract.owner(maxSupply + 1)).to.equal("0x0000000000000000000000000000000000000000");
+        expect(await contract.owner(0)).to.equal(ethers.constants.AddressZero);
+        expect(await contract.owner(1)).to.equal(ethers.constants.AddressZero);
+        expect(await contract.owner(maxSupply + 1)).to.equal(ethers.constants.AddressZero);
 
         await contract.connect(addr1).mint(1, { value: mintPrice });
         expect(await contract.owner(1)).to.equal(addr1.address);

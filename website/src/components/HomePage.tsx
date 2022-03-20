@@ -40,7 +40,7 @@ const createCollection = (): NFT[] => {
         image: `/nft/${id + 1}.jpg`,
         link: `https://opensea.io/assets/${CONTRACT}/${id + 1}`,
         lastPrice: BigNumber.from(0),
-        owner: "0x0000000000000000000000000000000000000000",
+        owner: ethers.constants.AddressZero,
     }));
 };
 
