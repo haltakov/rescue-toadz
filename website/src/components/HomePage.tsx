@@ -143,7 +143,16 @@ const HomePage = () => {
             </Explanation>
 
             <ConnectWallet>
-                {!contractHandler.hasSigner() && (
+                {!contractHandler.hasProvider() && (
+                    <p>
+                        Please install{" "}
+                        <a href="https://metamask.io" target="_blank">
+                            MetaMask
+                        </a>{" "}
+                        to interact with the website
+                    </p>
+                )}
+                {contractHandler.hasProvider() && !contractHandler.hasSigner() && (
                     <button onClick={async () => setAddress(await contractHandler.connectWallet())}>
                         Connect wallet
                     </button>
@@ -186,7 +195,7 @@ const HomePage = () => {
                             )}
                         </h4>
                         <NFTButtonContainer>
-                            {nft.lastPrice.eq(0) && (
+                            {contractHandler.hasProvider() && nft.lastPrice.eq(0) && (
                                 <button onClick={() => handleMintButton(nft.id)} disabled={loadingButton === nft.id}>
                                     {loadingButton === nft.id ? "Minting..." : "Mint"}
                                 </button>

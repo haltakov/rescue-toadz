@@ -6,6 +6,7 @@ import CONTRACT_ABI from "../contract_abi.json";
 export const CONTRACT = "0x1Fce02c44E51843a142B9a0d909FEe6c43E70549";
 
 export interface ContractHandler {
+    hasProvider: () => boolean;
     hasSigner: () => boolean;
     connectWallet: () => Promise<string>;
     disconnectWallet: () => void;
@@ -17,11 +18,18 @@ export interface ContractHandler {
 
 export const useContractHandler = (): ContractHandler => {
     return React.useMemo(() => {
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        const contract = new Contract(CONTRACT, CONTRACT_ABI, provider);
+        let provider: ethers.providers.Web3Provider | undefined = undefined;
+        let contract: Contract | undefined = undefined;
         let signer: Signer | undefined = undefined;
 
+        if ((window as any).ethereum) {
+            provider = new ethers.providers.Web3Provider((window as any).ethereum);
+            contract = new Contract(CONTRACT, CONTRACT_ABI, provider);
+        }
+
         const connectWallet = async () => {
+            if (!provider) return "";
+
             try {
                 await provider.send("eth_requestAccounts", []);
 
@@ -42,6 +50,8 @@ export const useContractHandler = (): ContractHandler => {
         };
 
         return {
+            hasProvider: () => provider !== undefined,
+
             hasSigner: () => signer !== undefined,
 
             disconnectWallet: () => {
@@ -57,6 +67,8 @@ export const useContractHandler = (): ContractHandler => {
             },
 
             owner: async (id: number) => {
+                if (!contract) return ethers.constants.AddressZero;
+
                 return await contract.owner(id);
             },
 
