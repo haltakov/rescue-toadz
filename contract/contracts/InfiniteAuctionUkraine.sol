@@ -19,10 +19,19 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
 
     mapping(uint256 => address) private _owner;
 
+    /**
+     * @dev Default constructor
+     */
     constructor()
         ERC1155("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/")
     {}
 
+    /**
+     * @notice Only allowed for tokens with id <= MAX_SUPPLY
+     * @notice Only one token for every id <= MAX_SUPPLY is allowed to be minted (smiliar to an ERC721 token)
+     * @dev Mint a token
+     * @param tokenId id of the token to be minted
+     */
     function mint(uint256 tokenId) external payable {
         require(
             tokenId <= MAX_SUPPLY,
@@ -39,11 +48,22 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         payable(PAYEE_ADDRESS).transfer(msg.value);
     }
 
+    /**
+     * @notice Only allowed for tokens with id <= MAX_SUPPLY
+     * @notice This function allows to transfer a token from another wallet by paying more than the last price paid
+     * @notice This function will mint a POAP token (id > MAX_SUPPLY) in the wallet from which the token is captured
+     * @dev Capture a token from another wallet
+     * @param tokenId id of the token to be captured
+     */
     function capture(uint256 tokenId) external payable {
+        require(
+            tokenId <= MAX_SUPPLY,
+            "Cannot capture a token with id greater than MAX_SUPPLY"
+        );
         require(exists(tokenId), "Cannot capture a token that is not minted");
         require(
             msg.value > _lastPrice[tokenId],
-            "Cannot capture token without paying more than the last price"
+            "Cannot capture a token without paying more than the last price"
         );
 
         address lastOwner = _owner[tokenId];
@@ -56,7 +76,16 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         payable(PAYEE_ADDRESS).transfer(msg.value);
     }
 
+    /**
+     * @notice Only allowed for tokens with id <= MAX_SUPPLY
+     * @dev Get the last price a token was minted or captured
+     * @param tokenId id of the token to check
+     */
     function lastPrice(uint256 tokenId) external view returns (uint256) {
+        require(
+            tokenId <= MAX_SUPPLY,
+            "Cannot get the last price of a token with id greater than MAX_SUPPLY"
+        );
         if (!exists(tokenId)) {
             return 0;
         }
@@ -64,7 +93,17 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         return _lastPrice[tokenId];
     }
 
+    /**
+     * @notice Only allowed for tokens with id <= MAX_SUPPLY, because they are guaranteed to have a single edition
+     * @dev Get the owner of a token with an id <= MAX_SUPPLY
+     * @param tokenId id of the token to get the owner of
+     */
     function owner(uint256 tokenId) external view returns (address) {
+        require(
+            tokenId <= MAX_SUPPLY,
+            "Cannot get the owner for token with id greater than MAX_SUPPLY"
+        );
+
         if (!exists(tokenId)) {
             return address(0);
         }
@@ -72,6 +111,10 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         return _owner[tokenId];
     }
 
+    /**
+     * @dev Get the URI of a token
+     * @param tokenId id of the token
+     */
     function uri(uint256 tokenId)
         public
         view

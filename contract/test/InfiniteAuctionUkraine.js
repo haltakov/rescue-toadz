@@ -37,10 +37,15 @@ describe("InfiniteAuctionUkraine", () => {
     it("should get the owner of a token", async () => {
         expect(await contract.owner(0)).to.equal(ethers.constants.AddressZero);
         expect(await contract.owner(1)).to.equal(ethers.constants.AddressZero);
-        expect(await contract.owner(maxSupply + 1)).to.equal(ethers.constants.AddressZero);
 
         await contract.connect(addr1).mint(1, { value: mintPrice });
         expect(await contract.owner(1)).to.equal(addr1.address);
+    });
+
+    it("should revert when getting the owner of a token with an id > MAX_SUPPLY", async () => {
+        await expect(contract.owner(maxSupply + 1)).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot get the owner for token with id greater than MAX_SUPPLY'"
+        );
     });
 
     it("should not mint more than max supply", async () => {
@@ -100,6 +105,15 @@ describe("InfiniteAuctionUkraine", () => {
         expect(await contract.lastPrice(1)).to.equal(mintPrice.mul(2));
     });
 
+    it("should not return the last price for token with id > MAX_SUPPLY", async () => {
+        await contract.mint(1, { value: mintPrice });
+        await contract.capture(1, { value: mintPrice.add(2) });
+
+        await expect(contract.lastPrice(maxSupply + 1)).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot get the last price of a token with id greater than MAX_SUPPLY'"
+        );
+    });
+
     it("should not capture token that is not minted", async () => {
         await expect(contract.capture(1, { value: mintPrice.mul(2) })).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token that is not minted'"
@@ -108,17 +122,26 @@ describe("InfiniteAuctionUkraine", () => {
         await expect(contract.capture(1, { value: mintPrice.mul(2) })).to.not.be.reverted;
     });
 
+    it("should not capture token with an id > MAX_SUPPY", async () => {
+        await contract.mint(1, { value: mintPrice });
+        await contract.capture(1, { value: mintPrice.add(1) });
+
+        await expect(contract.capture(maxSupply + 1, { value: mintPrice.add(2) })).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token with id greater than MAX_SUPPLY'"
+        );
+    });
+
     it("should capture token if a higher price is offered", async () => {
         await contract.mint(1, { value: mintPrice });
 
         await expect(contract.connect(addr1).capture(1, { value: mintPrice })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot capture token without paying more than the last price'"
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying more than the last price'"
         );
 
         await expect(contract.connect(addr1).capture(1, { value: mintPrice.add(1) })).to.not.be.reverted;
 
         await expect(contract.capture(1, { value: mintPrice.add(1) })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot capture token without paying more than the last price'"
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying more than the last price'"
         );
 
         await expect(contract.capture(1, { value: mintPrice.add(2) })).to.not.be.reverted;
