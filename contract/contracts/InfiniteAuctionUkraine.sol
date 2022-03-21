@@ -13,7 +13,7 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     address public constant PAYEE_ADDRESS =
         0x165CD37b4C644C2921454429E7F9358d18A45e14;
 
-    string public constant name = "Infinite Auction for Ukraine";
+    string public constant NAME = "Infinite Auction for Ukraine";
 
     mapping(uint256 => uint256) private _lastPrice;
 
