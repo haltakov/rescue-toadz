@@ -17,6 +17,8 @@ import {
 
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
 
+const OPENSEA_URL = process.env.REACT_APP_OPENSEA_URL || "https://testnets.opensea.io";
+
 type NFT = {
     id: number;
     name: string;
@@ -36,7 +38,7 @@ const createCollection = (): NFT[] => {
         id: id + 1,
         name: `Ukraine Toad #${id + 1}`,
         image: `/nft/${id + 1}.jpg`,
-        link: `https://opensea.io/assets/${CONTRACT_ADDRESS}/${id + 1}`,
+        link: `${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${id + 1}`,
         lastPrice: BigNumber.from(0),
         owner: ethers.constants.AddressZero,
     }));
@@ -183,10 +185,7 @@ const HomePage = () => {
                     <NFT key={nft.id}>
                         <h3>{nft.name}</h3>
                         {nft.lastPrice.gt(0) && (
-                            <a
-                                target="_blank"
-                                href={`https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${nft.id}`}
-                            >
+                            <a target="_blank" href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
                                 <img src={nft.image} alt={nft.name} />
                             </a>
                         )}
@@ -195,7 +194,7 @@ const HomePage = () => {
                             {!nft.lastPrice.eq(0) && (
                                 <>
                                     Owned by{" "}
-                                    <a href={`https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
+                                    <a href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
                                         {nft.owner.slice(2, 8).toUpperCase()}
                                     </a>{" "}
                                     for donating <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
