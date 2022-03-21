@@ -79,6 +79,12 @@ describe("InfiniteAuctionUkraine", () => {
         expect(await contract.uri(1)).to.equal("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/1");
     });
 
+    it("should revert when calling uri for non-existing tokens", async () => {
+        await expect(contract.uri(1)).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'URI query for nonexistent token'"
+        );
+    });
+
     it("should return the last price", async () => {
         expect(await contract.lastPrice(1)).to.equal(0);
 

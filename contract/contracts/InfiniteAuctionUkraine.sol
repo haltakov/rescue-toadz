@@ -13,7 +13,7 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     address public constant PAYEE_ADDRESS =
         0x165CD37b4C644C2921454429E7F9358d18A45e14;
 
-    string public constant name = "Infinite Auction for Ukraine";
+    string public constant NAME = "Infinite Auction for Ukraine";
 
     mapping(uint256 => uint256) private _lastPrice;
 
@@ -32,9 +32,9 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         require(!exists(tokenId), "Token already minted");
         require(msg.value >= MINT_PRICE, "Not enough funds to mint token");
 
-        _mint(msg.sender, tokenId, 1, "");
         _owner[tokenId] = msg.sender;
         _lastPrice[tokenId] = msg.value;
+        _mint(msg.sender, tokenId, 1, "");
 
         payable(PAYEE_ADDRESS).transfer(msg.value);
     }
@@ -46,10 +46,12 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
             "Cannot capture token without paying more than the last price"
         );
 
-        _mint(_owner[tokenId], MAX_SUPPLY + tokenId, 1, "");
-        _safeTransferFrom(_owner[tokenId], msg.sender, tokenId, 1, "");
+        address lastOwner = _owner[tokenId];
         _owner[tokenId] = msg.sender;
         _lastPrice[tokenId] = msg.value;
+
+        _safeTransferFrom(lastOwner, msg.sender, tokenId, 1, "");
+        _mint(lastOwner, MAX_SUPPLY + tokenId, 1, "");
 
         payable(PAYEE_ADDRESS).transfer(msg.value);
     }
