@@ -42,7 +42,7 @@ describe("InfiniteAuctionUkraine", () => {
         expect(await contract.owner(1)).to.equal(addr1.address);
     });
 
-    it("should revert when getting the owner of a token with an id > SINGLE_EDITIONS_SUPPLY", async () => {
+    it("should not get the owner of a token with an id > SINGLE_EDITIONS_SUPPLY", async () => {
         await expect(contract.owner(singleEditionsSupply + 1)).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'Cannot get the owner for token with id greater than SINGLE_EDITIONS_SUPPLY'"
         );
@@ -80,13 +80,13 @@ describe("InfiniteAuctionUkraine", () => {
         );
     });
 
-    it("should return the specified tokenURI", async () => {
+    it("should return the specified token uri", async () => {
         await contract.mint(1, { value: mintPrice });
 
         expect(await contract.uri(1)).to.equal("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/1");
     });
 
-    it("should revert when calling uri for non-existing tokens", async () => {
+    it("should not get the uri for non-existing tokens", async () => {
         await expect(contract.uri(1)).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'URI query for nonexistent token'"
         );
@@ -124,7 +124,7 @@ describe("InfiniteAuctionUkraine", () => {
         await expect(contract.capture(1, { value: mintPrice.mul(2) })).to.not.be.reverted;
     });
 
-    it("should not capture token with an id > MAX_SUPPY", async () => {
+    it("should not capture token with an id > SINGLE_EDITION_SUPPLY", async () => {
         await contract.mint(1, { value: mintPrice });
         await contract.capture(1, { value: mintPrice.add(1) });
 
