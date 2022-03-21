@@ -19,15 +19,20 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     using Strings for uint256;
 
+    // Number of single edition tokens. For each single edition token there will be a corresponding multiple edition token.
     uint256 public constant SINGLE_EDITIONS_SUPPLY = 12;
+
+    // Mint price
     uint256 public constant MINT_PRICE = 5000000 gwei;
-    address public constant PAYEE_ADDRESS =
+
+    // Address where all funds from minting and capturing tokens are donated
+    address public constant CHARITY_ADDRESS =
         0x165CD37b4C644C2921454429E7F9358d18A45e14;
 
-    string public constant NAME = "Infinite Auction for Ukraine";
-
+    // The last price a token was minted or captured for
     mapping(uint256 => uint256) private _lastPrice;
 
+    // The last owner of a token. This applies only for single edition tokens
     mapping(uint256 => address) private _owner;
 
     /**
@@ -36,6 +41,13 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
     constructor()
         ERC1155("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/")
     {}
+
+    /**
+     * @dev Name of the token
+     */
+    function name() external pure returns (string memory) {
+        return "Infinite Auction for Ukraine";
+    }
 
     /**
      * @notice Only allowed for tokens with id <= SINGLE_EDITIONS_SUPPLY
@@ -56,7 +68,7 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         _lastPrice[tokenId] = msg.value;
         _mint(msg.sender, tokenId, 1, "");
 
-        payable(PAYEE_ADDRESS).transfer(msg.value);
+        payable(CHARITY_ADDRESS).transfer(msg.value);
     }
 
     /**
@@ -84,7 +96,7 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
         _safeTransferFrom(lastOwner, msg.sender, tokenId, 1, "");
         _mint(lastOwner, SINGLE_EDITIONS_SUPPLY + tokenId, 1, "");
 
-        payable(PAYEE_ADDRESS).transfer(msg.value);
+        payable(CHARITY_ADDRESS).transfer(msg.value);
     }
 
     /**

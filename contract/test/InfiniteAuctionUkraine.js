@@ -16,6 +16,10 @@ describe("InfiniteAuctionUkraine", () => {
         contract = await InfiniteAuctionUkraine.deploy();
     });
 
+    it("should return the name of the token", async () => {
+        expect(await contract.name()).to.equal("Infinite Auction for Ukraine");
+    });
+
     it("should have a max supply of 10", async () => {
         expect(await contract.SINGLE_EDITIONS_SUPPLY()).to.equal(singleEditionsSupply);
     });
@@ -25,7 +29,7 @@ describe("InfiniteAuctionUkraine", () => {
     });
 
     it("should have set the payee to Ukrainian charity", async () => {
-        expect(await contract.PAYEE_ADDRESS()).to.equal("0x165CD37b4C644C2921454429E7F9358d18A45e14");
+        expect(await contract.CHARITY_ADDRESS()).to.equal("0x165CD37b4C644C2921454429E7F9358d18A45e14");
     });
 
     it("should mint token", async () => {
@@ -150,19 +154,19 @@ describe("InfiniteAuctionUkraine", () => {
     });
 
     it("should transfer mint funds to the payee", async () => {
-        const payeeBalace = await await ethers.provider.getBalance(await contract.PAYEE_ADDRESS());
+        const payeeBalace = await await ethers.provider.getBalance(await contract.CHARITY_ADDRESS());
         await contract.mint(1, { value: mintPrice });
-        const newPayeeBalace = await await ethers.provider.getBalance(await contract.PAYEE_ADDRESS());
+        const newPayeeBalace = await await ethers.provider.getBalance(await contract.CHARITY_ADDRESS());
         expect(newPayeeBalace.gt(payeeBalace)).to.be.true;
     });
 
     it("should transfer capture funds to the payee", async () => {
         await contract.mint(1, { value: mintPrice });
 
-        const payeeBalace = await await ethers.provider.getBalance(await contract.PAYEE_ADDRESS());
+        const payeeBalace = await await ethers.provider.getBalance(await contract.CHARITY_ADDRESS());
         await contract.connect(addr1).capture(1, { value: mintPrice.mul(2) });
 
-        const newPayeeBalace = await await ethers.provider.getBalance(await contract.PAYEE_ADDRESS());
+        const newPayeeBalace = await await ethers.provider.getBalance(await contract.CHARITY_ADDRESS());
         expect(newPayeeBalace.gt(payeeBalace)).to.be.true;
     });
 
