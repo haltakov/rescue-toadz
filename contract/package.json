@@ -24,7 +24,7 @@
         "hardhat": "^2.6.8",
         "hardhat-gas-reporter": "^1.0.4",
         "prettier": "2.6.0",
-        "solidity-coverage": "^0.7.17"
+        "solidity-coverage": "^0.7.0"
     },
     "dependencies": {
         "@openzeppelin/contracts": "^4.3.3",
