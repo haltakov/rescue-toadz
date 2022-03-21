@@ -9,7 +9,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY || "00000000000000000000000000000000
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || "";
 
 module.exports = {
-    solidity: "0.8.2",
+    solidity: "0.8.12",
     networks: {
         hardhat: {},
         rinkeby: {

@@ -8,7 +8,7 @@ describe("InfiniteAuctionUkraine", () => {
     let owner;
     let addr1;
     const mintPrice = BigNumber.from("5000000000000000"); // 0.005 ETH
-    const maxSupply = 12;
+    const singleEditionsSupply = 12;
 
     beforeEach(async function () {
         InfiniteAuctionUkraine = await ethers.getContractFactory("InfiniteAuctionUkraine");
@@ -17,7 +17,7 @@ describe("InfiniteAuctionUkraine", () => {
     });
 
     it("should have a max supply of 10", async () => {
-        expect(await contract.MAX_SUPPLY()).to.equal(maxSupply);
+        expect(await contract.SINGLE_EDITIONS_SUPPLY()).to.equal(singleEditionsSupply);
     });
 
     it("should have a mint price of 5 gwei", async () => {
@@ -37,17 +37,24 @@ describe("InfiniteAuctionUkraine", () => {
     it("should get the owner of a token", async () => {
         expect(await contract.owner(0)).to.equal(ethers.constants.AddressZero);
         expect(await contract.owner(1)).to.equal(ethers.constants.AddressZero);
-        expect(await contract.owner(maxSupply + 1)).to.equal(ethers.constants.AddressZero);
 
         await contract.connect(addr1).mint(1, { value: mintPrice });
         expect(await contract.owner(1)).to.equal(addr1.address);
     });
 
-    it("should not mint more than max supply", async () => {
-        await expect(contract.mint(await contract.MAX_SUPPLY(), { value: mintPrice })).to.not.be.reverted;
+    it("should revert when getting the owner of a token with an id > SINGLE_EDITIONS_SUPPLY", async () => {
+        await expect(contract.owner(singleEditionsSupply + 1)).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot get the owner for token with id greater than SINGLE_EDITIONS_SUPPLY'"
+        );
+    });
 
-        await expect(contract.mint((await contract.MAX_SUPPLY()) + 1, { value: mintPrice })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot mint token with id greater than MAX_SUPPLY'"
+    it("should not mint more than max supply", async () => {
+        await expect(contract.mint(await contract.SINGLE_EDITIONS_SUPPLY(), { value: mintPrice })).to.not.be.reverted;
+
+        await expect(
+            contract.mint((await contract.SINGLE_EDITIONS_SUPPLY()) + 1, { value: mintPrice })
+        ).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot mint token with id greater than SINGLE_EDITIONS_SUPPLY'"
         );
     });
 
@@ -100,6 +107,15 @@ describe("InfiniteAuctionUkraine", () => {
         expect(await contract.lastPrice(1)).to.equal(mintPrice.mul(2));
     });
 
+    it("should not return the last price for token with id > SINGLE_EDITIONS_SUPPLY", async () => {
+        await contract.mint(1, { value: mintPrice });
+        await contract.capture(1, { value: mintPrice.add(2) });
+
+        await expect(contract.lastPrice(singleEditionsSupply + 1)).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot get the last price of a token with id greater than SINGLE_EDITIONS_SUPPLY'"
+        );
+    });
+
     it("should not capture token that is not minted", async () => {
         await expect(contract.capture(1, { value: mintPrice.mul(2) })).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token that is not minted'"
@@ -108,17 +124,26 @@ describe("InfiniteAuctionUkraine", () => {
         await expect(contract.capture(1, { value: mintPrice.mul(2) })).to.not.be.reverted;
     });
 
+    it("should not capture token with an id > MAX_SUPPY", async () => {
+        await contract.mint(1, { value: mintPrice });
+        await contract.capture(1, { value: mintPrice.add(1) });
+
+        await expect(contract.capture(singleEditionsSupply + 1, { value: mintPrice.add(2) })).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token with id greater than SINGLE_EDITIONS_SUPPLY'"
+        );
+    });
+
     it("should capture token if a higher price is offered", async () => {
         await contract.mint(1, { value: mintPrice });
 
         await expect(contract.connect(addr1).capture(1, { value: mintPrice })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot capture token without paying more than the last price'"
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying more than the last price'"
         );
 
         await expect(contract.connect(addr1).capture(1, { value: mintPrice.add(1) })).to.not.be.reverted;
 
         await expect(contract.capture(1, { value: mintPrice.add(1) })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot capture token without paying more than the last price'"
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying more than the last price'"
         );
 
         await expect(contract.capture(1, { value: mintPrice.add(2) })).to.not.be.reverted;
@@ -142,32 +167,32 @@ describe("InfiniteAuctionUkraine", () => {
     });
 
     it("should no create POAP before capture", async () => {
-        expect(await contract.totalSupply(maxSupply + 1)).to.equal(0);
+        expect(await contract.totalSupply(singleEditionsSupply + 1)).to.equal(0);
 
         await contract.mint(1, { value: mintPrice });
 
-        expect(await contract.totalSupply(maxSupply + 1)).to.equal(0);
+        expect(await contract.totalSupply(singleEditionsSupply + 1)).to.equal(0);
 
         await contract.connect(addr1).capture(1, { value: mintPrice.mul(2) });
 
-        expect(await contract.totalSupply(maxSupply + 1)).to.equal(1);
-        expect(await contract.balanceOf(owner.address, maxSupply + 1)).to.equal(1);
+        expect(await contract.totalSupply(singleEditionsSupply + 1)).to.equal(1);
+        expect(await contract.balanceOf(owner.address, singleEditionsSupply + 1)).to.equal(1);
     });
 
     it("should create POAP with correct token ID", async () => {
-        expect(await contract.totalSupply(maxSupply + 1)).to.equal(0);
+        expect(await contract.totalSupply(singleEditionsSupply + 1)).to.equal(0);
         await contract.mint(1, { value: mintPrice });
         await contract.connect(addr1).capture(1, { value: mintPrice.mul(2) });
-        expect(await contract.totalSupply(maxSupply + 1)).to.equal(1);
+        expect(await contract.totalSupply(singleEditionsSupply + 1)).to.equal(1);
 
-        expect(await contract.totalSupply(maxSupply + 2)).to.equal(0);
+        expect(await contract.totalSupply(singleEditionsSupply + 2)).to.equal(0);
         await contract.mint(2, { value: mintPrice });
         await contract.connect(addr1).capture(2, { value: mintPrice.mul(2) });
-        expect(await contract.totalSupply(maxSupply + 2)).to.equal(1);
+        expect(await contract.totalSupply(singleEditionsSupply + 2)).to.equal(1);
 
-        expect(await contract.totalSupply(maxSupply + 3)).to.equal(0);
+        expect(await contract.totalSupply(singleEditionsSupply + 3)).to.equal(0);
         await contract.mint(3, { value: mintPrice });
         await contract.connect(addr1).capture(3, { value: mintPrice.mul(2) });
-        expect(await contract.totalSupply(maxSupply + 3)).to.equal(1);
+        expect(await contract.totalSupply(singleEditionsSupply + 3)).to.equal(1);
     });
 });
