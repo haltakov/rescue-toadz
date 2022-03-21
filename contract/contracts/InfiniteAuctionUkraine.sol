@@ -10,7 +10,7 @@
  *   @notice The contract implements a special function capture, that allows anybody to transfer a single edition token to their own wallet by donating more than the last owner.
  */
 
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
