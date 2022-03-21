@@ -1,0 +1,31 @@
+name: Lint
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "contract/contracts/**"
+            - ".github/workflows/linter.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "contract/contracts/**"
+            - ".github/workflows/linter.yaml"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Branch name
+              run: echo running on branch ${GITHUB_REF##*/}
+            - name: Install dependencies
+              working-directory: ./contract
+              run: |
+                  npm i -D solhint
+                  npx solhint --init
+            - name: Analysing the code with lint
+              working-directory: ./contract
+              run: |
+                  npm run lint

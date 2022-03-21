@@ -1,0 +1,38 @@
+name: Test-and-Coverage
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "contract/contracts/**"
+            - "contract/test/**"
+            - ".github/workflows/test.yaml"
+    pull_request:
+        branches: [main]
+        paths:
+            - "contract/contracts/**"
+            - "contract/test/**"
+            - ".github/workflows/test.yaml"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [16.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Branch name
+              run: echo running on branch ${GITHUB_REF##*/}
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Run tests and coverage
+              working-directory: ./contract
+              run: |
+                  npm install
+                  npm run test
+                  npm run coverage

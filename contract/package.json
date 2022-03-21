@@ -1,7 +1,7 @@
 {
-    "name": "nft-for-ukraine",
+    "name": "infinite-auction-for-ukraine",
     "version": "1.0.0",
-    "description": "NFT for Ukraine",
+    "description": "Infinite Auction for Ukraine",
     "scripts": {
         "build": "hardhat compile",
         "test": "hardhat test",
@@ -23,6 +23,7 @@
         "ethers": "^5.5.1",
         "hardhat": "^2.6.8",
         "hardhat-gas-reporter": "^1.0.4",
+        "prettier": "2.6.0",
         "solidity-coverage": "^0.7.17"
     },
     "dependencies": {
