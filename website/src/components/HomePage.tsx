@@ -89,6 +89,8 @@ const HomePage = () => {
             setTimeout(() => setNotificationMessage(null), 5000);
 
             setLoadingButton(0);
+
+            setCollection(await updateCollection(collection, contractHandler));
         },
         []
     );
@@ -153,7 +155,12 @@ const HomePage = () => {
                     </p>
                 )}
                 {contractHandler.hasProvider() && !contractHandler.hasSigner() && (
-                    <button onClick={async () => setAddress(await contractHandler.connectWallet())}>
+                    <button
+                        onClick={async () => {
+                            setAddress(await contractHandler.connectWallet());
+                            setCollection(await updateCollection(collection, contractHandler));
+                        }}
+                    >
                         Connect wallet
                     </button>
                 )}

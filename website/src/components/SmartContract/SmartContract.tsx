@@ -38,6 +38,9 @@ export const useContractHandler = (): ContractHandler => {
                         method: "wallet_switchEthereumChain",
                         params: [{ chainId: "0x4" }],
                     });
+
+                    provider = new ethers.providers.Web3Provider((window as any).ethereum);
+                    contract = new Contract(CONTRACT, CONTRACT_ABI, provider);
                 }
 
                 signer = provider.getSigner();
