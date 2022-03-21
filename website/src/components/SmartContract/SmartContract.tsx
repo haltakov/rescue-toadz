@@ -1,9 +1,11 @@
 import React from "react";
 import { BigNumber, Contract, Signer, ethers } from "ethers";
 
-import CONTRACT_ABI from "../contract_abi.json";
+import CONTRACT_ABI from "./contract_abi.json";
 
-export const CONTRACT = "0x1Fce02c44E51843a142B9a0d909FEe6c43E70549";
+export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0xb37A15EF1678e6b2AF60B400F4719f46eFaDCCE8";
+export const CONTRAT_NETWORK_ID = process.env.REACT_APP_SMART_CONTRACT_NETWORK_ID || "0x4";
+export const COLLECTION_SIZE = parseInt(process.env.REACT_APP_COLLECTION_SIZE || "12");
 
 export interface ContractHandler {
     hasProvider: () => boolean;
@@ -24,7 +26,7 @@ export const useContractHandler = (): ContractHandler => {
 
         if ((window as any).ethereum) {
             provider = new ethers.providers.Web3Provider((window as any).ethereum);
-            contract = new Contract(CONTRACT, CONTRACT_ABI, provider);
+            contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
         }
 
         const connectWallet = async () => {
@@ -33,14 +35,14 @@ export const useContractHandler = (): ContractHandler => {
             try {
                 await provider.send("eth_requestAccounts", []);
 
-                if ((await provider.getNetwork()).name !== "rinkeby") {
+                if ((window as any).ethereum.chainId !== CONTRAT_NETWORK_ID) {
                     await (window as any).ethereum.request({
                         method: "wallet_switchEthereumChain",
-                        params: [{ chainId: "0x4" }],
+                        params: [{ chainId: CONTRAT_NETWORK_ID }],
                     });
 
                     provider = new ethers.providers.Web3Provider((window as any).ethereum);
-                    contract = new Contract(CONTRACT, CONTRACT_ABI, provider);
+                    contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
                 }
 
                 signer = provider.getSigner();
