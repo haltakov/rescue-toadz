@@ -1,4 +1,4 @@
-name: Test-and-Coverage
+name: Test-and-Coverage-Contract
 
 on:
     push:
@@ -6,13 +6,13 @@ on:
         paths:
             - "contract/contracts/**"
             - "contract/test/**"
-            - ".github/workflows/test.yaml"
+            - ".github/workflows/test-contract.yaml"
     pull_request:
         branches: [main]
         paths:
             - "contract/contracts/**"
             - "contract/test/**"
-            - ".github/workflows/test.yaml"
+            - ".github/workflows/test-contract.yaml"
 
 jobs:
     build:
