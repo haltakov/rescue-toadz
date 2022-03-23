@@ -5,13 +5,13 @@ from pathlib import Path
 METADATA_PATH = Path("../metadata")
 IMAGES_PATH = Path("../images")
 
-IMAGE_URL_IPFS = "ipfs://Qmbu82wQt8D3D2B2FMva33uwTvsWVzNvd9p2PPNPXpcg49"
+IMAGE_URL_IPFS = "ipfs://Qmf25keJPxAsefmghuRj2EcqBTstReBh43Amiymxucj8gp"
 
-NAME_TOKEN = "Ukraine Toad #"
-DESCRIPTION_TOKEN = "All proceeds from buying this toad go to help the Ukraine. Anybody can buy the NFT if they offer more money than the price you bought it for"
+NAME_TOKEN = "Rescue Toad #"
+DESCRIPTION_TOKEN = "Thank you for donating to Ukraine and putting up this toad in your wallet! It will stay here as long as nobody has matched your donation or donated more."
 
-NAME_POAP = "Ukraine Toad POAP #"
-DESCRIPTION_POAP = "This POAP certifies that you once held an Ukrainian toad and you donated the money to Ukraine."
+NAME_POAP = "Rescue Toad Glasses #"
+DESCRIPTION_POAP = "You were once so kind to donate to Ukraine and put up a toad in your wallet. However, somebody matched your donation so the toad hopped in their wallet. The toad left you these glasses as memento for your time together and your kind donation."
 
 
 def writeMetadataJSON(path, file_id, id, name, description):
