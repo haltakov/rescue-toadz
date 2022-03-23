@@ -7,7 +7,7 @@ describe("RescueToadz", () => {
     let contract;
     let owner;
     let addr1;
-    const mintPrice = BigNumber.from("5000000000000000"); // 0.005 ETH
+    const mintPrice = BigNumber.from("10000000000000000"); // 0.005 ETH
     const singleEditionsSupply = 12;
 
     beforeEach(async function () {

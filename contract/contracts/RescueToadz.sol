@@ -23,7 +23,7 @@ contract RescueToadz is ERC1155, ERC1155Supply {
     uint256 public constant SINGLE_EDITIONS_SUPPLY = 12;
 
     // Mint price
-    uint256 public constant MINT_PRICE = 5000000 gwei;
+    uint256 public constant MINT_PRICE = 10000000 gwei;
 
     // Address where all funds from minting and capturing tokens are donated
     address public constant CHARITY_ADDRESS =
