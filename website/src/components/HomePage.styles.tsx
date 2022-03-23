@@ -134,7 +134,7 @@ export const QuestionsContainer = styled.div`
     text-xl font-thin
     grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
     px-4 md:px-8 lg:px-16
-    md:gap-6 lg:gap-10
+    md:gap-6 lg:gap-8
     `}
 
     h4 {

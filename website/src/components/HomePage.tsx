@@ -238,52 +238,49 @@ const HomePage = () => {
                 <h3>FAQ</h3>
                 <QuestionsContainer>
                     <div>
-                        <h4>How can my toad hop in another wallet?</h4>
+                        <h4>Do I get an NFT if I mint a toad?</h4>
+                        <p>Yes, you will get an NFT with the image of the toad that you minted.</p>
+                    </div>
+                    <div>
+                        <h4>All toadz are minted, can I get one?</h4>
                         <p>
-                            This is a novel mechanics we implemented. When somebody donates more for your toad than what
-                            you donated, it will hop into the other wallet.
+                            Yes, you can either match the last donation for a toad or donate more. It will them hop in
+                            your wallet.
                         </p>
                     </div>
                     <div>
-                        <h4>So, I will not own the toad anymore?</h4>
+                        <h4>What if somebody donates more?</h4>
                         <p>
-                            Yes. Your toad will be automatically transwered into the wallet that donated more. However,
-                            it will drop its glasses as a memento for your donation.
+                            Your toad will be transferred to the wallet that donated more. It will leave its glasses as
+                            a memento, though.
                         </p>
                     </div>
                     <div>
-                        <h4>Why should I mint or buy a toad?</h4>
+                        <h4>What are these glasses?</h4>
                         <p>
-                            Because 100% of the funds from minting or luring toadz are used as donations for
-                            humanitarian help in Ukraine. And you get an NFT as a certificate of your donation.
+                            The glasses are an NFT, but aren't unique as the toadz. Everybody that held the toad has the
+                            same glasses.
+                        </p>
+                    </div>
+                    <div>
+                        <h4>Can I stop the toad leaving my wallet?</h4>
+                        <p>
+                            No, you can't stop the toad from hopping of to another wallet if somebody matches your
+                            donation.
                         </p>
                     </div>
 
                     <div>
-                        <h4>What is your roadmap?</h4>
+                        <h4>Where do the funds go?</h4>
                         <p>
-                            We want to raise money for Ukraine and we want to do it in a way that incentives people to
-                            give more. Consider both as implemented.
-                        </p>
-                    </div>
-                    <div>
-                        <h4>How am I sure all funds go to Ukraine?</h4>
-                        <p>
-                            100% of the funds for minting or luring toadz, are automatically donated directly in the{" "}
+                            100% of the collected funds go to ORGANIZATION. This happens instanntly in the{" "}
                             <a
                                 href="https://rinkeby.etherscan.io/address/0xD6E8Be3A4C0dcaA6430B3dE9549591EE0F3EC21c#code"
                                 target="_blank"
                             >
                                 smart contract
                             </a>
-                            . No need to trust us, trust the code!
-                        </p>
-                    </div>
-                    <div>
-                        <h4>Where do the funds go?</h4>
-                        <p>
-                            All funds are used for humanitarian help by donating them to ... (Still need to choose the
-                            exact organization)
+                            .
                         </p>
                     </div>
                 </QuestionsContainer>
