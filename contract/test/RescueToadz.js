@@ -2,8 +2,8 @@ const { BigNumber } = require("@ethersproject/bignumber");
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("InfiniteAuctionUkraine", () => {
-    let InfiniteAuctionUkraine;
+describe("RescueToadz", () => {
+    let RescueToadz;
     let contract;
     let owner;
     let addr1;
@@ -11,13 +11,13 @@ describe("InfiniteAuctionUkraine", () => {
     const singleEditionsSupply = 12;
 
     beforeEach(async function () {
-        InfiniteAuctionUkraine = await ethers.getContractFactory("InfiniteAuctionUkraine");
+        RescueToadz = await ethers.getContractFactory("RescueToadz");
         [owner, addr1, addr2] = await ethers.getSigners();
-        contract = await InfiniteAuctionUkraine.deploy();
+        contract = await RescueToadz.deploy();
     });
 
     it("should return the name of the token", async () => {
-        expect(await contract.name()).to.equal("Infinite Auction for Ukraine");
+        expect(await contract.name()).to.equal("Rescue Toadz");
     });
 
     it("should have a max supply of 10", async () => {

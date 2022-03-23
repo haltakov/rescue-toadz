@@ -1,4 +1,4 @@
-# Smart contract for the Infinite Auction for Ukraine project
+# Smart contract for the Rescue Toadz project
 
 This folder contains the smart contract for the project.
 

@@ -4,9 +4,9 @@ async function main() {
     console.log("Deploying contracts with the account:", deployer.address);
     console.log("Account balance:", (await deployer.getBalance()).toString());
 
-    const InfiniteAuctionUkraine = await ethers.getContractFactory("InfiniteAuctionUkraine");
+    const RescueToadz = await ethers.getContractFactory("RescueToadz");
 
-    const contract = await InfiniteAuctionUkraine.deploy();
+    const contract = await RescueToadz.deploy();
 
     console.log("Contract address:", contract.address);
 }

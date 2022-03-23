@@ -1,7 +1,7 @@
 {
-    "name": "infinite-auction-for-ukraine",
+    "name": "rescue-toadz-contract",
     "version": "1.0.0",
-    "description": "Infinite Auction for Ukraine",
+    "description": "Rescue Toadz Contract",
     "scripts": {
         "build": "hardhat compile",
         "test": "hardhat test",
