@@ -275,7 +275,7 @@ const HomePage = () => {
                         <p>
                             100% of the collected funds go to ORGANIZATION. This happens instanntly in the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0xD6E8Be3A4C0dcaA6430B3dE9549591EE0F3EC21c#code"
+                                href="https://rinkeby.etherscan.io/address/0x95F512513A7550E54AD3cC92640001B6Fe9aA378#code"
                                 target="_blank"
                             >
                                 smart contract
