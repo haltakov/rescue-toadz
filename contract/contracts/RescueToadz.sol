@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- *   @title Infinite Auction for Ukraine
+ *   @title Rescue Toadz
  *   @author Vladimir Haltakov (@haltakov)
  *   @notice ERC1155 contract for a collection of Ukrainian themed toadz
  *   @notice All proceeds from minting and capturing tokens are donated to charity for Ukraine
@@ -16,14 +16,14 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
+contract RescueToadz is ERC1155, ERC1155Supply {
     using Strings for uint256;
 
     // Number of single edition tokens. For each single edition token there will be a corresponding multiple edition token.
-    uint256 public constant SINGLE_EDITIONS_SUPPLY = 12;
+    uint256 public constant SINGLE_EDITIONS_SUPPLY = 18;
 
     // Mint price
-    uint256 public constant MINT_PRICE = 5000000 gwei;
+    uint256 public constant MINT_PRICE = 10000000 gwei;
 
     // Address where all funds from minting and capturing tokens are donated
     address public constant CHARITY_ADDRESS =
@@ -39,14 +39,14 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
      * @dev Default constructor
      */
     constructor()
-        ERC1155("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/")
+        ERC1155("ipfs://QmS2SpPstK2JAyDKijYHeHgsFPQeAno8VG9hDDKnHNfmdZ/")
     {}
 
     /**
      * @dev Name of the token
      */
     function name() external pure returns (string memory) {
-        return "Infinite Auction for Ukraine";
+        return "Rescue Toadz";
     }
 
     /**

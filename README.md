@@ -1,4 +1,4 @@
-# Infinite Auction for Ukraine
+# Rescue Toadz
 
 This is a project that aims to raise funds for humanitarian help in Ukraine.
 

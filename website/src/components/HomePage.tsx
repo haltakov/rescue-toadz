@@ -16,6 +16,7 @@ import {
 } from "./HomePage.styles";
 
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
+import { nth, reduceRight } from "lodash";
 
 const OPENSEA_URL = process.env.REACT_APP_OPENSEA_URL || "https://testnets.opensea.io";
 
@@ -59,6 +60,12 @@ const HomePage = () => {
     const [collection, setCollection] = React.useState<NFT[]>(createCollection());
     const [loadingButton, setLoadingButton] = React.useState<number>(0);
     const [notificationMessage, setNotificationMessage] = React.useState<NotificationMessage | null>(null);
+
+    const [donateMore, showDonateMore] = React.useReducer((state: boolean[], action: number) => {
+        const newState = [...state];
+        newState[action] = true;
+        return newState;
+    }, Array(COLLECTION_SIZE).fill(false));
 
     const contractHandler = useContractHandler();
 
@@ -104,7 +111,16 @@ const HomePage = () => {
         );
     }, []);
 
-    const handleCaptureButton = React.useCallback(async (id: number, lastPrice: BigNumber) => {
+    const handleMatchButton = React.useCallback(async (id: number, lastPrice: BigNumber) => {
+        handleContractInteractionButton(
+            id,
+            () => contractHandler.captureToken(id, lastPrice),
+            "Donation matched successfully",
+            "Donation failed"
+        );
+    }, []);
+
+    const handleDonateMoreButton = React.useCallback(async (id: number, lastPrice: BigNumber) => {
         const userValue = ethers.utils.parseUnits(inputRefs[id - 1].current?.value || "0", "ether");
 
         if (userValue.lt(lastPrice)) {
@@ -117,8 +133,8 @@ const HomePage = () => {
             handleContractInteractionButton(
                 id,
                 () => contractHandler.captureToken(id, userValue),
-                "Toad lured successfully",
-                "Luring failed"
+                "Donation successful",
+                "Donation failed"
             );
         }
     }, []);
@@ -214,7 +230,20 @@ const HomePage = () => {
                                     {loadingButton === nft.id ? "Minting..." : "Mint"}
                                 </button>
                             )}
-                            {!nft.lastPrice.eq(0) && (
+                            {!nft.lastPrice.eq(0) && !donateMore[nft.id - 1] && (
+                                <>
+                                    <button
+                                        onClick={() => handleMatchButton(nft.id, nft.lastPrice)}
+                                        disabled={loadingButton === nft.id}
+                                    >
+                                        {loadingButton === nft.id ? "Donating..." : "Match Donation"}
+                                    </button>
+                                    <button onClick={() => showDonateMore(nft.id - 1)}>
+                                        {loadingButton === nft.id ? "Donating..." : "Donate More"}
+                                    </button>
+                                </>
+                            )}
+                            {!nft.lastPrice.eq(0) && donateMore[nft.id - 1] && (
                                 <>
                                     <input
                                         ref={inputRefs[nft.id - 1]}
@@ -222,10 +251,10 @@ const HomePage = () => {
                                         placeholder={`${ethers.utils.formatEther(nft.lastPrice)} ETH`}
                                     />
                                     <button
-                                        onClick={() => handleCaptureButton(nft.id, nft.lastPrice)}
+                                        onClick={() => handleDonateMoreButton(nft.id, nft.lastPrice)}
                                         disabled={loadingButton === nft.id}
                                     >
-                                        {loadingButton === nft.id ? "Luring..." : "Lure"}
+                                        {loadingButton === nft.id ? "Donating..." : "Donate"}
                                     </button>
                                 </>
                             )}
@@ -275,7 +304,7 @@ const HomePage = () => {
                         <p>
                             100% of the collected funds go to ORGANIZATION. This happens instanntly in the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0xD6E8Be3A4C0dcaA6430B3dE9549591EE0F3EC21c#code"
+                                href="https://rinkeby.etherscan.io/address/0x95F512513A7550E54AD3cC92640001B6Fe9aA378#code"
                                 target="_blank"
                             >
                                 smart contract

@@ -2,22 +2,22 @@ const { BigNumber } = require("@ethersproject/bignumber");
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("InfiniteAuctionUkraine", () => {
-    let InfiniteAuctionUkraine;
+describe("RescueToadz", () => {
+    let RescueToadz;
     let contract;
     let owner;
     let addr1;
-    const mintPrice = BigNumber.from("5000000000000000"); // 0.005 ETH
-    const singleEditionsSupply = 12;
+    const mintPrice = BigNumber.from("10000000000000000"); // 0.005 ETH
+    const singleEditionsSupply = 18;
 
     beforeEach(async function () {
-        InfiniteAuctionUkraine = await ethers.getContractFactory("InfiniteAuctionUkraine");
+        RescueToadz = await ethers.getContractFactory("RescueToadz");
         [owner, addr1, addr2] = await ethers.getSigners();
-        contract = await InfiniteAuctionUkraine.deploy();
+        contract = await RescueToadz.deploy();
     });
 
     it("should return the name of the token", async () => {
-        expect(await contract.name()).to.equal("Infinite Auction for Ukraine");
+        expect(await contract.name()).to.equal("Rescue Toadz");
     });
 
     it("should have a max supply of 10", async () => {
@@ -87,7 +87,7 @@ describe("InfiniteAuctionUkraine", () => {
     it("should return the specified token uri", async () => {
         await contract.mint(1, { value: mintPrice });
 
-        expect(await contract.uri(1)).to.equal("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/1");
+        expect(await contract.uri(1)).to.equal("ipfs://QmS2SpPstK2JAyDKijYHeHgsFPQeAno8VG9hDDKnHNfmdZ/1");
     });
 
     it("should not get the uri for non-existing tokens", async () => {

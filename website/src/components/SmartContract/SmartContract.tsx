@@ -3,9 +3,9 @@ import { BigNumber, Contract, Signer, ethers } from "ethers";
 
 import CONTRACT_ABI from "./contract_abi.json";
 
-export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0x48E0293F18fEA9fD1AA1653cef82fc8ea37Fa14f";
+export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0x95F512513A7550E54AD3cC92640001B6Fe9aA378";
 export const CONTRAT_NETWORK_ID = process.env.REACT_APP_SMART_CONTRACT_NETWORK_ID || "0x4";
-export const COLLECTION_SIZE = parseInt(process.env.REACT_APP_COLLECTION_SIZE || "12");
+export const COLLECTION_SIZE = parseInt(process.env.REACT_APP_COLLECTION_SIZE || "18");
 
 export interface ContractHandler {
     hasProvider: () => boolean;
