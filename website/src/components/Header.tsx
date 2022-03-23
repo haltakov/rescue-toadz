@@ -3,8 +3,8 @@ import { HeaderContainer, OpenseaLink } from "./Header.styles";
 const Header = () => {
     return (
         <HeaderContainer>
-            <h1>Infinite Auction for Ukraine</h1>
-            <h2>A collection of mischievous Ukrainan toadz. All funds fo to Ukraine.</h2>
+            <h1>Rescue Toadz</h1>
+            <h2>A collection to raise funds for humanitarian help in the Ukraine.</h2>
             <OpenseaLink>
                 <a target="_blank" href="https://testnets.opensea.io/collection/infinite-auction-for-ukraine-v2">
                     <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -132,15 +132,22 @@ const HomePage = () => {
     return (
         <MainContainer>
             <Explanation>
+                <h3>
+                    These toadz are looking for a temporary place to stay, do you have spare room in your wallet? They
+                    promise to be the perfect guest!
+                </h3>
                 <p>
-                    <strong>Mint</strong> any toad donating 100% of the funds to Ukraine.
+                    <strong>Mint a toad</strong> by donating 0.01 eth and put it up in your wallet
                 </p>
                 <p>
-                    <strong>Lure</strong> any toad in your wallet by donating more than the previous owner.
+                    Offer a toad to stay with you by <strong>matching the last donation</strong> or donating more
                 </p>
                 <p>
-                    If your toad hops to another wallet, it will <strong>drop its glasses</strong> an NFT memento for
-                    your donation.
+                    Once a toad hops off to another wallet it will leave you a{" "}
+                    <strong>pair of glasses as memento</strong>
+                </p>
+                <p>
+                    <strong>100% of the funds</strong> raised go directly to the Ukraine
                 </p>
             </Explanation>
 

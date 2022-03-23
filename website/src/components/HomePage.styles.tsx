@@ -14,7 +14,15 @@ export const Explanation = styled.div`
     ${tw`
     text-center
     text-xl font-thin
+    mx-auto
+    max-w-3xl
     `}
+
+    h3 {
+        ${tw`
+        my-8
+        `}
+    }
 
     p {
         ${tw`
