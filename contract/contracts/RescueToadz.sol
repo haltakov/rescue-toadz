@@ -20,7 +20,7 @@ contract RescueToadz is ERC1155, ERC1155Supply {
     using Strings for uint256;
 
     // Number of single edition tokens. For each single edition token there will be a corresponding multiple edition token.
-    uint256 public constant SINGLE_EDITIONS_SUPPLY = 12;
+    uint256 public constant SINGLE_EDITIONS_SUPPLY = 18;
 
     // Mint price
     uint256 public constant MINT_PRICE = 10000000 gwei;

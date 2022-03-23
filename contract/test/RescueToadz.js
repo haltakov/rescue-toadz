@@ -8,7 +8,7 @@ describe("RescueToadz", () => {
     let owner;
     let addr1;
     const mintPrice = BigNumber.from("10000000000000000"); // 0.005 ETH
-    const singleEditionsSupply = 12;
+    const singleEditionsSupply = 18;
 
     beforeEach(async function () {
         RescueToadz = await ethers.getContractFactory("RescueToadz");
