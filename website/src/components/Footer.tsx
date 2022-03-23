@@ -9,7 +9,7 @@ const Footer = () => {
                     @haltakov
                 </a>
             </strong>{" "}
-            , art by{" "}
+            art by{" "}
             <strong>
                 <a href="https://twitter.com/ianbydesign" target="_blank">
                     @ianbydesign
