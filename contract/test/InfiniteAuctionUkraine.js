@@ -87,7 +87,7 @@ describe("InfiniteAuctionUkraine", () => {
     it("should return the specified token uri", async () => {
         await contract.mint(1, { value: mintPrice });
 
-        expect(await contract.uri(1)).to.equal("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/1");
+        expect(await contract.uri(1)).to.equal("ipfs://QmS2SpPstK2JAyDKijYHeHgsFPQeAno8VG9hDDKnHNfmdZ/1");
     });
 
     it("should not get the uri for non-existing tokens", async () => {

@@ -39,7 +39,7 @@ contract InfiniteAuctionUkraine is ERC1155, ERC1155Supply {
      * @dev Default constructor
      */
     constructor()
-        ERC1155("ipfs://QmZsZVR5dZdcWfrie2T74Ve4MymMBDDk7tKDRGe4sRx8mZ/")
+        ERC1155("ipfs://QmS2SpPstK2JAyDKijYHeHgsFPQeAno8VG9hDDKnHNfmdZ/")
     {}
 
     /**
