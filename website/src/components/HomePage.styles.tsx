@@ -82,6 +82,7 @@ export const NFTButtonContainer = styled.div`
     px-4
     flex
     justify-center
+    gap-2
     `}
 
     input {
@@ -99,7 +100,7 @@ export const NFTButtonContainer = styled.div`
 
     button {
         ${tw`
-        w-24
+        w-36
         py-1
         font-light
         text-gray-800
