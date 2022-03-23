@@ -6,6 +6,7 @@ export const PageContainer = styled.div`
     py-8
     max-w-screen-2xl mx-auto
     flex h-screen flex-col justify-between
+    tracking-wider
     `}
 
     a {
