@@ -135,6 +135,13 @@ contract RescueToadz is ERC1155, ERC1155Supply {
     }
 
     /**
+     * @notice Override the setApprovalForAll function to prevent selling the NFT on exchanges
+     */
+    function setApprovalForAll(address, bool) public virtual override {
+        revert("setApprovalForAll is not supported");
+    }
+
+    /**
      * @dev Get the URI of a token
      * @param tokenId id of the token
      */
