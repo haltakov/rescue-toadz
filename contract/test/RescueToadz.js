@@ -29,7 +29,7 @@ describe("RescueToadz", () => {
     });
 
     it("should have set the payee to Ukrainian charity", async () => {
-        expect(await contract.CHARITY_ADDRESS()).to.equal("0x165CD37b4C644C2921454429E7F9358d18A45e14");
+        expect(await contract.CHARITY_ADDRESS()).to.equal("0x10E1439455BD2624878b243819E31CfEE9eb721C");
     });
 
     it("should mint token", async () => {

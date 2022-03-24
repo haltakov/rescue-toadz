@@ -25,9 +25,9 @@ contract RescueToadz is ERC1155, ERC1155Supply {
     // Mint price
     uint256 public constant MINT_PRICE = 10000000 gwei;
 
-    // Address where all funds from minting and capturing tokens are donated
+    // Address of Unchain Ukraine where all funds will be donated for humanitarian help (see https://unchain.fund/ for details)
     address public constant CHARITY_ADDRESS =
-        0x165CD37b4C644C2921454429E7F9358d18A45e14;
+        0x10E1439455BD2624878b243819E31CfEE9eb721C;
 
     // The last price a token was minted or captured for
     mapping(uint256 => uint256) private _lastPrice;
