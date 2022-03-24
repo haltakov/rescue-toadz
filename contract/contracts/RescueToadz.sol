@@ -85,8 +85,8 @@ contract RescueToadz is ERC1155, ERC1155Supply {
         );
         require(exists(tokenId), "Cannot capture a token that is not minted");
         require(
-            msg.value > _lastPrice[tokenId],
-            "Cannot capture a token without paying more than the last price"
+            msg.value >= _lastPrice[tokenId],
+            "Cannot capture a token without paying at least the last price"
         );
 
         address lastOwner = _owner[tokenId];

@@ -137,17 +137,27 @@ describe("RescueToadz", () => {
         );
     });
 
+    it("should not capture token if a lower price is offered", async () => {
+        await contract.mint(1, { value: mintPrice });
+
+        await expect(contract.connect(addr1).capture(1, { value: mintPrice.sub(1) })).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying at least the last price'"
+        );
+    });
+
+    it("should capture token if the last price is matched", async () => {
+        await contract.mint(1, { value: mintPrice });
+
+        await expect(contract.connect(addr1).capture(1, { value: mintPrice })).to.not.be.reverted;
+    });
+
     it("should capture token if a higher price is offered", async () => {
         await contract.mint(1, { value: mintPrice });
 
-        await expect(contract.connect(addr1).capture(1, { value: mintPrice })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying more than the last price'"
-        );
-
         await expect(contract.connect(addr1).capture(1, { value: mintPrice.add(1) })).to.not.be.reverted;
 
-        await expect(contract.capture(1, { value: mintPrice.add(1) })).to.be.revertedWith(
-            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying more than the last price'"
+        await expect(contract.capture(1, { value: mintPrice })).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Cannot capture a token without paying at least the last price'"
         );
 
         await expect(contract.capture(1, { value: mintPrice.add(2) })).to.not.be.reverted;
