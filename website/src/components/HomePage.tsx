@@ -1,7 +1,7 @@
 import React from "react";
 import { BigNumber, ethers } from "ethers";
 
-import { CONTRACT_ADDRESS, COLLECTION_SIZE } from "./SmartContract/SmartContract";
+import { CONTRACT_ADDRESS, COLLECTION_SIZE, ContractError } from "./SmartContract/SmartContract";
 
 import {
     Collection,
@@ -74,7 +74,7 @@ const HomePage = () => {
     const handleContractInteractionButton = React.useCallback(
         async (
             nftId: number,
-            contractFunction: () => Promise<boolean>,
+            contractFunction: () => Promise<ContractError>,
             contractHandler: ContractHandler,
             successMessage: string,
             errorMessage: string
@@ -85,17 +85,21 @@ const HomePage = () => {
 
             const result = await contractFunction();
 
-            if (result) {
-                setNotificationMessage({
-                    type: "success",
-                    message: successMessage,
-                });
-            } else {
-                setNotificationMessage({
-                    type: "error",
-                    message: errorMessage,
-                });
+            switch (result) {
+                case ContractError.None:
+                    setNotificationMessage({ type: "success", message: successMessage });
+                    break;
+                case ContractError.NotEnoughBalance:
+                    setNotificationMessage({ type: "error", message: "Not enough funds in the wallet" });
+                    break;
+                case ContractError.NotMatchedDonation:
+                    setNotificationMessage({ type: "error", message: "Last donation not matched" });
+                    break;
+                case ContractError.Other:
+                    setNotificationMessage({ type: "error", message: errorMessage });
+                    break;
             }
+
             setTimeout(() => setNotificationMessage(null), 5000);
 
             setLoadingButton(0);
@@ -125,24 +129,16 @@ const HomePage = () => {
         );
     }, []);
 
-    const handleDonateMoreButton = React.useCallback(async (id: number, lastPrice: BigNumber) => {
+    const handleDonateMoreButton = React.useCallback(async (id: number) => {
         const userValue = ethers.utils.parseUnits(inputRefs[id - 1].current?.value || "0", "ether");
 
-        if (userValue.lt(lastPrice)) {
-            setNotificationMessage({
-                type: "error",
-                message: "You need to donate more than the last donation",
-            });
-            setTimeout(() => setNotificationMessage(null), 5000);
-        } else {
-            handleContractInteractionButton(
-                id,
-                () => contractHandler.captureToken(id, userValue),
-                contractHandler,
-                "Donation successful",
-                "Donation failed"
-            );
-        }
+        handleContractInteractionButton(
+            id,
+            () => contractHandler.captureToken(id, userValue),
+            contractHandler,
+            "Donation successful",
+            "Donation failed"
+        );
     }, []);
 
     React.useEffect(() => {
@@ -174,7 +170,7 @@ const HomePage = () => {
             </Explanation>
 
             <ConnectWallet>
-                {!contractHandler.hasProvider() && (
+                {!contractHandler.getProvider() && (
                     <p>
                         Please install{" "}
                         <a href="https://metamask.io" target="_blank">
@@ -183,7 +179,7 @@ const HomePage = () => {
                         to interact with the website
                     </p>
                 )}
-                {contractHandler.hasProvider() && !contractHandler.hasSigner() && (
+                {contractHandler.getProvider() && !contractHandler.hasSigner() && (
                     <button
                         onClick={async () => {
                             setAddress(await contractHandler.connectWallet());
@@ -231,7 +227,7 @@ const HomePage = () => {
                             )}
                         </h4>
                         <NFTButtonContainer>
-                            {contractHandler.hasProvider() && nft.lastPrice.eq(0) && (
+                            {contractHandler.getProvider() && nft.lastPrice.eq(0) && (
                                 <button onClick={() => handleMintButton(nft.id)} disabled={loadingButton === nft.id}>
                                     {loadingButton === nft.id ? "Minting..." : "Mint"}
                                 </button>
@@ -257,7 +253,7 @@ const HomePage = () => {
                                         placeholder={`${ethers.utils.formatEther(nft.lastPrice)} ETH`}
                                     />
                                     <button
-                                        onClick={() => handleDonateMoreButton(nft.id, nft.lastPrice)}
+                                        onClick={() => handleDonateMoreButton(nft.id)}
                                         disabled={loadingButton === nft.id}
                                     >
                                         {loadingButton === nft.id ? "Donating..." : "Donate"}

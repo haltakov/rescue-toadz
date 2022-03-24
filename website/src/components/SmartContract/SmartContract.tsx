@@ -7,16 +7,23 @@ export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0x95F
 export const CONTRAT_NETWORK_ID = process.env.REACT_APP_SMART_CONTRACT_NETWORK_ID || "0x4";
 export const COLLECTION_SIZE = parseInt(process.env.REACT_APP_COLLECTION_SIZE || "18");
 
+export enum ContractError {
+    None,
+    NotEnoughBalance,
+    NotMatchedDonation,
+    Other,
+}
+
 export interface ContractHandler {
-    hasProvider: () => boolean;
+    getProvider: () => ethers.providers.Provider | undefined;
     hasSigner: () => boolean;
     getAddress: () => Promise<string>;
     connectWallet: () => Promise<string>;
     disconnectWallet: () => void;
     lastPrice: (id: number) => Promise<BigNumber>;
     owner: (id: number) => Promise<string>;
-    mintToken: (id: number) => Promise<boolean>;
-    captureToken: (id: number, value: BigNumber) => Promise<boolean>;
+    mintToken: (id: number) => Promise<ContractError>;
+    captureToken: (id: number, value: BigNumber) => Promise<ContractError>;
 }
 
 export const useContractHandler = (): ContractHandler => {
@@ -31,7 +38,7 @@ export const useContractHandler = (): ContractHandler => {
         }
 
         return {
-            hasProvider: () => provider !== undefined,
+            getProvider: () => provider,
 
             hasSigner: () => signer !== undefined,
 
@@ -79,41 +86,49 @@ export const useContractHandler = (): ContractHandler => {
             },
 
             mintToken: async (id) => {
-                if (!contract) return false;
+                if (!contract) return ContractError.Other;
 
                 if (signer) {
                     try {
-                        const tx = await contract.connect(signer).mint(id, { value: await contract.MINT_PRICE() });
+                        const mintProce = await contract.MINT_PRICE();
+
+                        if ((await signer.getBalance()).lt(mintProce)) return ContractError.NotEnoughBalance;
+
+                        const tx = await contract.connect(signer).mint(id, { value: mintProce });
                         const receipt = await tx.wait();
 
-                        return receipt.status === 1;
+                        return receipt.status === 1 ? ContractError.None : ContractError.Other;
                     } catch (error) {
                         console.log(error);
-                        return false;
+                        return ContractError.Other;
                     }
                 }
 
-                return false;
+                return ContractError.Other;
             },
 
             captureToken: async (id, value) => {
-                if (!contract) return false;
+                if (!contract) return ContractError.Other;
 
                 if (signer) {
                     try {
                         if (contract && signer) {
+                            if ((await signer.getBalance()).lt(value)) return ContractError.NotEnoughBalance;
+
+                            if (value < (await contract.lastPrice(id))) return ContractError.NotMatchedDonation;
+
                             const tx = await contract.connect(signer).capture(id, { value: value });
                             const receipt = await tx.wait();
 
-                            return receipt.status === 1;
+                            return receipt.status === 1 ? ContractError.None : ContractError.Other;
                         }
                     } catch (error) {
                         console.log(error);
-                        return false;
+                        return ContractError.Other;
                     }
-                } else return false;
+                } else return ContractError.Other;
 
-                return false;
+                return ContractError.Other;
             },
         };
     }, []);
