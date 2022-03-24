@@ -75,10 +75,13 @@ const HomePage = () => {
         async (
             nftId: number,
             contractFunction: () => Promise<boolean>,
+            contractHandler: ContractHandler,
             successMessage: string,
             errorMessage: string
         ) => {
             setLoadingButton(nftId);
+
+            if (!contractHandler.hasSigner()) setAddress(await contractHandler.connectWallet());
 
             const result = await contractFunction();
 
@@ -106,6 +109,7 @@ const HomePage = () => {
         handleContractInteractionButton(
             id,
             () => contractHandler.mintToken(id),
+            contractHandler,
             "Toad minted successfully",
             "Minting failed"
         );
@@ -115,6 +119,7 @@ const HomePage = () => {
         handleContractInteractionButton(
             id,
             () => contractHandler.captureToken(id, lastPrice),
+            contractHandler,
             "Donation matched successfully",
             "Donation failed"
         );
@@ -133,6 +138,7 @@ const HomePage = () => {
             handleContractInteractionButton(
                 id,
                 () => contractHandler.captureToken(id, userValue),
+                contractHandler,
                 "Donation successful",
                 "Donation failed"
             );

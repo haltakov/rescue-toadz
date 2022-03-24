@@ -10,6 +10,7 @@ export const COLLECTION_SIZE = parseInt(process.env.REACT_APP_COLLECTION_SIZE ||
 export interface ContractHandler {
     hasProvider: () => boolean;
     hasSigner: () => boolean;
+    getAddress: () => Promise<string>;
     connectWallet: () => Promise<string>;
     disconnectWallet: () => void;
     lastPrice: (id: number) => Promise<BigNumber>;
@@ -29,41 +30,41 @@ export const useContractHandler = (): ContractHandler => {
             contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
         }
 
-        const connectWallet = async () => {
-            if (!provider) return "";
-
-            try {
-                await provider.send("eth_requestAccounts", []);
-
-                if ((window as any).ethereum.chainId !== CONTRAT_NETWORK_ID) {
-                    await (window as any).ethereum.request({
-                        method: "wallet_switchEthereumChain",
-                        params: [{ chainId: CONTRAT_NETWORK_ID }],
-                    });
-
-                    provider = new ethers.providers.Web3Provider((window as any).ethereum);
-                    contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
-                }
-
-                signer = provider.getSigner();
-
-                return await signer.getAddress();
-            } catch (error) {
-                console.log(error);
-                return "";
-            }
-        };
-
         return {
             hasProvider: () => provider !== undefined,
 
             hasSigner: () => signer !== undefined,
 
+            getAddress: async () => (signer ? await signer.getAddress() : ""),
+
             disconnectWallet: () => {
                 signer = undefined;
             },
 
-            connectWallet: connectWallet,
+            connectWallet: async () => {
+                if (!provider) return "";
+
+                try {
+                    await provider.send("eth_requestAccounts", []);
+
+                    if ((window as any).ethereum.chainId !== CONTRAT_NETWORK_ID) {
+                        await (window as any).ethereum.request({
+                            method: "wallet_switchEthereumChain",
+                            params: [{ chainId: CONTRAT_NETWORK_ID }],
+                        });
+
+                        provider = new ethers.providers.Web3Provider((window as any).ethereum);
+                        contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+                    }
+
+                    signer = provider.getSigner();
+
+                    return await signer.getAddress();
+                } catch (error) {
+                    console.log(error);
+                    return "";
+                }
+            },
 
             lastPrice: async (id) => {
                 if (!contract) return BigNumber.from(0);
@@ -79,8 +80,6 @@ export const useContractHandler = (): ContractHandler => {
 
             mintToken: async (id) => {
                 if (!contract) return false;
-
-                if (!signer) await connectWallet();
 
                 if (signer) {
                     try {
@@ -99,8 +98,6 @@ export const useContractHandler = (): ContractHandler => {
 
             captureToken: async (id, value) => {
                 if (!contract) return false;
-
-                if (!signer) await connectWallet();
 
                 if (signer) {
                     try {
