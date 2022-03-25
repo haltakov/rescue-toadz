@@ -39,15 +39,15 @@ describe("RescueToadz", () => {
     });
 
     it("should get the owner of a token", async () => {
-        expect(await contract.owner(0)).to.equal(ethers.constants.AddressZero);
-        expect(await contract.owner(1)).to.equal(ethers.constants.AddressZero);
+        expect(await contract.ownerOf(0)).to.equal(ethers.constants.AddressZero);
+        expect(await contract.ownerOf(1)).to.equal(ethers.constants.AddressZero);
 
         await contract.connect(addr1).mint(1, { value: mintPrice });
-        expect(await contract.owner(1)).to.equal(addr1.address);
+        expect(await contract.ownerOf(1)).to.equal(addr1.address);
     });
 
     it("should not get the owner of a token with an id > SINGLE_EDITIONS_SUPPLY", async () => {
-        await expect(contract.owner(singleEditionsSupply + 1)).to.be.revertedWith(
+        await expect(contract.ownerOf(singleEditionsSupply + 1)).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'Cannot get the owner for token with id greater than SINGLE_EDITIONS_SUPPLY'"
         );
     });

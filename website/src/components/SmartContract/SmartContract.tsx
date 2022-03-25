@@ -82,7 +82,7 @@ export const useContractHandler = (): ContractHandler => {
             owner: async (id: number) => {
                 if (!contract) return ethers.constants.AddressZero;
 
-                return await contract.owner(id);
+                return await contract.ownerOf(id);
             },
 
             mintToken: async (id) => {

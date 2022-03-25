@@ -14,9 +14,10 @@ pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract RescueToadz is ERC1155, ERC1155Supply {
+contract RescueToadz is ERC1155, ERC1155Supply, Ownable {
     using Strings for uint256;
 
     // Number of single edition tokens. For each single edition token there will be a corresponding multiple edition token.
@@ -33,7 +34,7 @@ contract RescueToadz is ERC1155, ERC1155Supply {
     mapping(uint256 => uint256) private _lastPrice;
 
     // The last owner of a token. This applies only for single edition tokens
-    mapping(uint256 => address) private _owner;
+    mapping(uint256 => address) private _ownerOf;
 
     /**
      * @dev Default constructor
@@ -64,7 +65,7 @@ contract RescueToadz is ERC1155, ERC1155Supply {
         require(!exists(tokenId), "Token already minted");
         require(msg.value >= MINT_PRICE, "Not enough funds to mint token");
 
-        _owner[tokenId] = msg.sender;
+        _ownerOf[tokenId] = msg.sender;
         _lastPrice[tokenId] = msg.value;
         _mint(msg.sender, tokenId, 1, "");
 
@@ -89,8 +90,8 @@ contract RescueToadz is ERC1155, ERC1155Supply {
             "Cannot capture a token without paying at least the last price"
         );
 
-        address lastOwner = _owner[tokenId];
-        _owner[tokenId] = msg.sender;
+        address lastOwner = _ownerOf[tokenId];
+        _ownerOf[tokenId] = msg.sender;
         _lastPrice[tokenId] = msg.value;
 
         _safeTransferFrom(lastOwner, msg.sender, tokenId, 1, "");
@@ -121,7 +122,7 @@ contract RescueToadz is ERC1155, ERC1155Supply {
      * @dev Get the owner of a token with an id <= SINGLE_EDITIONS_SUPPLY
      * @param tokenId id of the token to get the owner of
      */
-    function owner(uint256 tokenId) external view returns (address) {
+    function ownerOf(uint256 tokenId) external view returns (address) {
         require(
             tokenId <= SINGLE_EDITIONS_SUPPLY,
             "Cannot get the owner for token with id greater than SINGLE_EDITIONS_SUPPLY"
@@ -131,7 +132,7 @@ contract RescueToadz is ERC1155, ERC1155Supply {
             return address(0);
         }
 
-        return _owner[tokenId];
+        return _ownerOf[tokenId];
     }
 
     /**
