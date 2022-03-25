@@ -209,4 +209,10 @@ describe("RescueToadz", () => {
         await contract.connect(addr1).capture(3, { value: mintPrice.mul(2) });
         expect(await contract.totalSupply(singleEditionsSupply + 3)).to.equal(1);
     });
+
+    it("should not allow setApprovalForAll", async () => {
+        await expect(contract.setApprovalForAll(addr1.address, 1)).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'setApprovalForAll is not supported'"
+        );
+    });
 });
