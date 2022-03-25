@@ -10,7 +10,7 @@
         "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network rinkeby",
         "verify:rinkeby": "npx hardhat verify --network rinkeby",
         "lint": "solhint --max-warnings 0 'contracts/**/*.sol'",
-        "slither": "slither . --exclude-dependencies --exclude-informational --compile-force-framework hardhat --exclude reentrancy-no-eth,reentrancy-events"
+        "slither": "slither . --exclude-dependencies --exclude-informational --compile-force-framework hardhat --exclude reentrancy-no-eth,reentrancy-events,external-function"
     },
     "author": "Vladimir Haltakov",
     "license": "MIT",

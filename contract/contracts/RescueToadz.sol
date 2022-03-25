@@ -25,9 +25,9 @@ contract RescueToadz is ERC1155, ERC1155Supply {
     // Mint price
     uint256 public constant MINT_PRICE = 10000000 gwei;
 
-    // Address where all funds from minting and capturing tokens are donated
+    // Address of Unchain Ukraine where all funds will be donated for humanitarian help (see https://unchain.fund/ for details)
     address public constant CHARITY_ADDRESS =
-        0x165CD37b4C644C2921454429E7F9358d18A45e14;
+        0x10E1439455BD2624878b243819E31CfEE9eb721C;
 
     // The last price a token was minted or captured for
     mapping(uint256 => uint256) private _lastPrice;
@@ -85,8 +85,8 @@ contract RescueToadz is ERC1155, ERC1155Supply {
         );
         require(exists(tokenId), "Cannot capture a token that is not minted");
         require(
-            msg.value > _lastPrice[tokenId],
-            "Cannot capture a token without paying more than the last price"
+            msg.value >= _lastPrice[tokenId],
+            "Cannot capture a token without paying at least the last price"
         );
 
         address lastOwner = _owner[tokenId];
@@ -132,6 +132,13 @@ contract RescueToadz is ERC1155, ERC1155Supply {
         }
 
         return _owner[tokenId];
+    }
+
+    /**
+     * @notice Override the setApprovalForAll function to prevent selling the NFT on exchanges
+     */
+    function setApprovalForAll(address, bool) public virtual override {
+        revert("setApprovalForAll is not supported");
     }
 
     /**
