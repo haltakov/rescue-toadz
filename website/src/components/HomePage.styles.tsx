@@ -67,6 +67,27 @@ export const NFT = styled.div`
         `}
     }
 
+    img.hover-image {
+        ${tw`
+        absolute
+        hidden
+        left-0
+        top-0
+        `}
+    }
+
+    div {
+        ${tw`
+        relative
+        `}
+    }
+
+    div:hover img.hover-image {
+        ${tw`
+        inline
+        `}
+    }
+
     span {
         ${tw`
         text-lg

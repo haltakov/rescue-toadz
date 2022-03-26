@@ -209,12 +209,20 @@ const HomePage = () => {
                 {collection.map((nft) => (
                     <NFT key={nft.id}>
                         <h3>{nft.name}</h3>
-                        {nft.lastPrice.gt(0) && (
-                            <a target="_blank" href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
+                        <a
+                            {...(nft.lastPrice.gt(0)
+                                ? { href: `${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`, target: "_blank" }
+                                : {})}
+                        >
+                            <div>
                                 <img src={nft.image} alt={nft.name} />
-                            </a>
-                        )}
-                        {!nft.lastPrice.gt(0) && <img src={nft.image} alt={nft.name} />}
+                                <img
+                                    className="hover-image"
+                                    src={`/nft/${nft.id + COLLECTION_SIZE}.jpg`}
+                                    alt={nft.name + " glasses"}
+                                />
+                            </div>
+                        </a>
                         <h4>
                             {!nft.lastPrice.eq(0) && (
                                 <>
