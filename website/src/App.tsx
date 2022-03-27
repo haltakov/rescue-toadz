@@ -5,7 +5,7 @@ import PageLayout from "./components/PageLayout";
 import Plausible from "plausible-tracker";
 
 const { enableAutoPageviews } = Plausible({
-    domain: "rescue-toadz.netlify.app",
+    domain: "rescuetoadz.xyz",
     apiHost: "/plausible",
 });
 
