@@ -154,19 +154,33 @@ const HomePage = () => {
                     These toadz are looking for a temporary place to stay, do you have spare room in your wallet? They
                     promise to be the perfect guest!
                 </h3>
-                <p>
-                    <strong>Mint a toad</strong> by donating 0.01 eth and put it up in your wallet
+
+                {/* <p>
+                    <strong>Mint a toad</strong> by donating 0.01 eth, and it will gratefully hop straight into your
+                    wallet
                 </p>
                 <p>
-                    Offer a toad to stay with you by <strong>matching the last donation</strong> or donating more
+                    <strong>Match or increase the last donation</strong> to host an already minted toad in your wallet.
                 </p>
                 <p>
-                    Once a toad hops off to another wallet it will leave you a{" "}
-                    <strong>pair of glasses as memento</strong>
+                    If someone else offers to host your toad, it will bid you a fond farewell for your kindness and
+                    leave you a <strong>pair of glasses as a memento</strong>
+                </p> */}
+
+                <p className="mx-auto max-w-xl">
+                    Simply <strong>mint a toad by donating 0.01 eth</strong>, and it will gratefully hop straight into
+                    your wallet. You can also <strong>offer to host</strong> an already minted toad in your wallet by{" "}
+                    <strong>matching or increasing the last donation</strong>. It will bid you a fond farewell to its
+                    previous host and leave them a <strong>pair of glasses as a memento</strong>
                 </p>
-                <p>
-                    <strong>100% of the funds</strong> raised go directly to the Ukraine
-                </p>
+
+                <h3>
+                    100% of the funds raised go directly via{" "}
+                    <a href="https://unchain.fund/" target="_blank">
+                        Uncahin Fund
+                    </a>{" "}
+                    to the Ukraine humanitarian effort
+                </h3>
             </Explanation>
 
             <ConnectWallet>
@@ -283,38 +297,49 @@ const HomePage = () => {
                     <div>
                         <h4>All toadz are minted, can I get one?</h4>
                         <p>
-                            Yes, you can either match the last donation for a toad or donate more. It will them hop in
-                            your wallet.
+                            Yes, you can either match or increase the last donation for a toad. It will then directly
+                            hop into your wallet.
                         </p>
                     </div>
                     <div>
                         <h4>What if somebody donates more?</h4>
                         <p>
-                            Your toad will be transferred to the wallet that donated more. It will leave its glasses as
-                            a memento, though.
-                        </p>
-                    </div>
-                    <div>
-                        <h4>What are these glasses?</h4>
-                        <p>
-                            The glasses are an NFT, but aren't unique as the toadz. Everybody that held the toad has the
-                            same glasses.
+                            Your toad will move to the wallet that donated more. It will leave you a pair of NFT glasses
+                            as a memento, though.
                         </p>
                     </div>
                     <div>
                         <h4>Can I stop the toad leaving my wallet?</h4>
                         <p>
-                            No, you can't stop the toad from hopping of to another wallet if somebody matches your
-                            donation.
+                            No. This is a novel feature we coded into the{" "}
+                            <a
+                                href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E#code"
+                                target="_blank"
+                            >
+                                smart contract
+                            </a>{" "}
+                            . This encourages people to donate more.
                         </p>
                     </div>
 
                     <div>
-                        <h4>Where do the funds go?</h4>
+                        <h4>Can I sell my toad or my glasses?</h4>
                         <p>
-                            100% of the collected funds go to ORGANIZATION. This happens instanntly in the{" "}
+                            No. Listing of the toadz and the glasses on a secondary exchange like OpenSea is blocked in
+                            the cotnract.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4>What happens with the funds?</h4>
+                        <p>
+                            100% of the collected funds go to{" "}
+                            <a href="https://unchain.fund/" target="_blank">
+                                Uncahin Fund
+                            </a>{" "}
+                            . This happens right away directly in the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0x95F512513A7550E54AD3cC92640001B6Fe9aA378#code"
+                                href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E#code"
                                 target="_blank"
                             >
                                 smart contract

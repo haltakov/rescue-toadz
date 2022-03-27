@@ -2,4 +2,4 @@
 
 This folder contains the smart contract for the project.
 
-It is currently deployed on the Rinkeby testnet: [0x148D655bbb2D828f824C817f85d1424A6a050Ed9](https://rinkeby.etherscan.io/address/0x148D655bbb2D828f824C817f85d1424A6a050Ed9).
+It is currently deployed on the Rinkeby testnet: [0x9243C87Fc1b089671921c0976cA11a8fcf69283E](https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E).

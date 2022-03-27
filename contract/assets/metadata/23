@@ -1,6 +1,11 @@
 {
     "name": "Rescue Toad Glasses #5",
-    "attributes": [],
-    "description": "You were once so kind to donate to Ukraine and put up a toad in your wallet. However, somebody matched your donation so the toad hopped in their wallet. The toad left you these glasses as memento for your time together and your kind donation.",
-    "image": "ipfs://Qmf25keJPxAsefmghuRj2EcqBTstReBh43Amiymxucj8gp/23.jpg"
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Glasses"
+        }
+    ],
+    "description": "Thank you for hosting a toad in your wallet and donating to the Ukraine humanitarian effort. It seems that somebody else matched or increased your donation, so the toad hopped into their wallet. However, it left you these pair of glasses as memento for your time together and your kind donation.",
+    "image": "ipfs://QmfUL123vUBV47YXTTdPW3ezkvshve9PG6DYYYvtRoYfvt/23.jpg"
 }

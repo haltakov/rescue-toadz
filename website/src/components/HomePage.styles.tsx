@@ -2,7 +2,7 @@ import tw, { styled } from "twin.macro";
 
 export const MainContainer = styled.div`
     ${tw`
-    mt-8
+    mt-4
     
     mb-auto
     mx-auto
@@ -15,7 +15,7 @@ export const Explanation = styled.div`
     text-center
     text-xl font-thin
     mx-auto
-    max-w-3xl
+    max-w-4xl
     `}
 
     h3 {
