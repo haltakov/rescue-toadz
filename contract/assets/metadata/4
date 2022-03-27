@@ -1,6 +1,11 @@
 {
     "name": "Rescue Toad #4",
-    "attributes": [],
-    "description": "Thank you for donating to Ukraine and putting up this toad in your wallet! It will stay here as long as nobody has matched your donation or donated more.",
-    "image": "ipfs://Qmf25keJPxAsefmghuRj2EcqBTstReBh43Amiymxucj8gp/4.jpg"
+    "attributes": [
+        {
+            "trait_type": "Type",
+            "value": "Toad"
+        }
+    ],
+    "description": "Thank you for hosting this toad in your wallet and donating to the Ukraine humanitarian effort! The toad will stay in your wallet as long as nobody else has matched or icreased your donation.",
+    "image": "ipfs://QmfUL123vUBV47YXTTdPW3ezkvshve9PG6DYYYvtRoYfvt/4.jpg"
 }
