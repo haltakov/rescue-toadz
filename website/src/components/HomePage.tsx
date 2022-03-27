@@ -154,19 +154,33 @@ const HomePage = () => {
                     These toadz are looking for a temporary place to stay, do you have spare room in your wallet? They
                     promise to be the perfect guest!
                 </h3>
-                <p>
-                    <strong>Mint a toad</strong> by donating 0.01 eth and put it up in your wallet
+
+                {/* <p>
+                    <strong>Mint a toad</strong> by donating 0.01 eth, and it will gratefully hop straight into your
+                    wallet
                 </p>
                 <p>
-                    Offer a toad to stay with you by <strong>matching the last donation</strong> or donating more
+                    <strong>Match or increase the last donation</strong> to host an already minted toad in your wallet.
                 </p>
                 <p>
-                    Once a toad hops off to another wallet it will leave you a{" "}
-                    <strong>pair of glasses as memento</strong>
+                    If someone else offers to host your toad, it will bid you a fond farewell for your kindness and
+                    leave you a <strong>pair of glasses as a memento</strong>
+                </p> */}
+
+                <p className="mx-auto max-w-xl">
+                    Simply <strong>mint a toad by donating 0.01 eth</strong>, and it will gratefully hop straight into
+                    your wallet. You can also <strong>offer to host</strong> an already minted toad in your wallet by{" "}
+                    <strong>matching or increasing the last donation</strong>. It will bid you a fond farewell to its
+                    previous host and leave them a <strong>pair of glasses as a memento</strong>
                 </p>
-                <p>
-                    <strong>100% of the funds</strong> raised go directly to the Ukraine
-                </p>
+
+                <h3>
+                    100% of the funds raised go directly via{" "}
+                    <a href="https://unchain.fund/" target="_blank">
+                        Uncahin Fund
+                    </a>{" "}
+                    to the Ukraine humanitarian effort
+                </h3>
             </Explanation>
 
             <ConnectWallet>

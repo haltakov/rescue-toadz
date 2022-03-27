@@ -4,7 +4,9 @@ const Header = () => {
     return (
         <HeaderContainer>
             <h1>Rescue Toadz</h1>
-            <h2>A collection to raise funds for humanitarian help in the Ukraine.</h2>
+            <h2>
+                A collection of 18 toadz travelling the blockchain to raise funds for humanitarian aid to the Ukraine
+            </h2>
             <OpenseaLink>
                 <a target="_blank" href="https://testnets.opensea.io/collection/rescue-toadz-v5">
                     <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
