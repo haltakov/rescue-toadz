@@ -38,7 +38,7 @@ export const Collection = styled.div`
     p-4 md:p-8 lg:p-16
     grid
     grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-    md:gap-8 lg:gap-12
+    md:gap-6 lg:gap-8
     `}
 `;
 

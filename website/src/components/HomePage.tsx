@@ -211,7 +211,6 @@ const HomePage = () => {
             <Collection>
                 {collection.map((nft) => (
                     <NFT key={nft.id}>
-                        <h3>{nft.name}</h3>
                         <a
                             {...(nft.lastPrice.gt(0)
                                 ? { href: `${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`, target: "_blank" }
@@ -226,17 +225,15 @@ const HomePage = () => {
                                 />
                             </div>
                         </a>
-                        <h4>
-                            {!nft.lastPrice.eq(0) && (
-                                <>
-                                    Owned by{" "}
-                                    <a href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
-                                        {nft.owner.slice(2, 8).toUpperCase()}
-                                    </a>{" "}
-                                    for donating <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
-                                </>
-                            )}
-                        </h4>
+                        {!nft.lastPrice.eq(0) && (
+                            <h4>
+                                Owned by{" "}
+                                <a href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
+                                    {nft.owner.slice(2, 8).toUpperCase()}
+                                </a>{" "}
+                                for donating <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
+                            </h4>
+                        )}
                         <NFTButtonContainer>
                             {contractHandler.getProvider() && nft.lastPrice.eq(0) && (
                                 <button onClick={() => handleMintButton(nft.id)} disabled={loadingButton === nft.id}>
