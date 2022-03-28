@@ -155,32 +155,21 @@ const HomePage = () => {
                     promise to be the perfect guest!
                 </h3>
 
-                {/* <p>
-                    <strong>Mint a toad</strong> by donating 0.01 eth, and it will gratefully hop straight into your
-                    wallet
-                </p>
                 <p>
-                    <strong>Match or increase the last donation</strong> to host an already minted toad in your wallet.
-                </p>
-                <p>
-                    If someone else offers to host your toad, it will bid you a fond farewell for your kindness and
-                    leave you a <strong>pair of glasses as a memento</strong>
-                </p> */}
-
-                <p className="mx-auto max-w-xl">
                     Simply <strong>mint a toad by donating 0.01 eth</strong>, and it will gratefully hop straight into
-                    your wallet. You can also <strong>offer to host</strong> an already minted toad in your wallet by{" "}
+                    your wallet.
+                    <br /> You can also <strong>offer to host</strong> an already minted toad in your wallet by{" "}
                     <strong>matching or increasing the last donation</strong>. It will bid you a fond farewell to its
                     previous host and leave them a <strong>pair of glasses as a memento</strong>
                 </p>
 
-                <h3>
+                <p>
                     100% of the funds raised go directly via{" "}
                     <a href="https://unchain.fund/" target="_blank">
-                        Uncahin Fund
+                        Unchain Fund
                     </a>{" "}
                     to the Ukraine humanitarian effort
-                </h3>
+                </p>
             </Explanation>
 
             <ConnectWallet>
