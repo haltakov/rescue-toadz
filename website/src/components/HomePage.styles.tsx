@@ -147,6 +147,13 @@ export const FAQ = styled.div`
         font-normal
         `}
     }
+
+    h4 {
+        ${tw`
+        mt-4 mb-1
+        p-0
+        `}
+    }
 `;
 
 export const QuestionsContainer = styled.div`
@@ -190,7 +197,6 @@ export const ConnectWallet = styled.div`
         rounded-md
         p-2
         text-xl
-        
 
         bg-gradient-to-br from-yellow-400 to-yellow-200
         hover:(bg-gradient-to-tl from-yellow-200 to-yellow-100)

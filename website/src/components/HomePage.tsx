@@ -278,13 +278,13 @@ const HomePage = () => {
                 <QuestionsContainer>
                     <div>
                         <h4>Do I get an NFT if I mint a toad?</h4>
-                        <p>Yes, you will get an NFT with the image of the toad that you minted.</p>
+                        <p>Yes, you will get an NFT with the specific image of the toad that you chose to mint.</p>
                     </div>
                     <div>
-                        <h4>All toadz are minted, can I get one?</h4>
+                        <h4>All toadz are minted, now what?</h4>
                         <p>
-                            Yes, you can either match or increase the last donation for a toad. It will then directly
-                            hop into your wallet.
+                            You can either match or increase the last donation for a toad and it will directly hop into
+                            your wallet.
                         </p>
                     </div>
                     <div>
@@ -295,7 +295,7 @@ const HomePage = () => {
                         </p>
                     </div>
                     <div>
-                        <h4>Can I stop the toad leaving my wallet?</h4>
+                        <h4>Can I stop a toad leaving my wallet?</h4>
                         <p>
                             No. This is a novel feature we coded into the{" "}
                             <a
