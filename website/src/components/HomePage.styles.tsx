@@ -210,6 +210,44 @@ export const ConnectWallet = styled.div`
     }
 `;
 
+export const ImportantInfo = styled.div`
+    ${tw`
+    text-center
+    mb-12
+    max-w-2xl
+    mx-auto
+    `}
+
+    h3 {
+        ${tw`
+        text-3xl
+        font-normal
+        mb-8
+        `}
+    }
+
+    ul {
+        ${tw`
+        text-left
+        text-lg
+        font-thin
+        `}
+
+        li {
+            ${tw`
+            py-1
+            `}
+        }
+
+        strong {
+            ${tw`
+            w-48
+            inline-block
+            `}
+        }
+    }
+`;
+
 export const Notification = styled.div`
     ${tw`
     fixed

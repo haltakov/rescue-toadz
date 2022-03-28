@@ -13,6 +13,7 @@ import {
     NFTButtonContainer,
     QuestionsContainer,
     Notification,
+    ImportantInfo,
 } from "./HomePage.styles";
 
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
@@ -335,6 +336,49 @@ const HomePage = () => {
                     </div>
                 </QuestionsContainer>
             </FAQ>
+
+            <ImportantInfo>
+                <h3>Important Links</h3>
+                <ul>
+                    <li>
+                        <strong>Smart contract</strong>{" "}
+                        <a
+                            target="_blank"
+                            href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E"
+                        >
+                            0x9243C87Fc1b089671921c0976cA11a8fcf69283E
+                        </a>
+                    </li>
+
+                    <li>
+                        <strong>OpenSea collection</strong>{" "}
+                        <a
+                            target="_blank"
+                            href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E"
+                        >
+                            Rescue Toadz
+                        </a>
+                    </li>
+
+                    <li>
+                        <strong>Project code</strong>{" "}
+                        <a target="_blank" href="https://github.com/haltakov/rescue-toadz">
+                            GitHup repository
+                        </a>
+                    </li>
+
+                    <li>
+                        <strong>Team</strong>{" "}
+                        <a target="_blank" href="https://twitter.com/haltakov">
+                            @haltakov
+                        </a>{" "}
+                        and{" "}
+                        <a target="_blank" href="https://twitter.com/ianbydesign">
+                            @ianbydesign
+                        </a>
+                    </li>
+                </ul>
+            </ImportantInfo>
 
             <Notification>
                 {notificationMessage && <div className={notificationMessage.type}>{notificationMessage.message}</div>}
