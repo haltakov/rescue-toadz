@@ -38,7 +38,7 @@ export const Collection = styled.div`
     p-4 md:p-8 lg:p-16
     grid
     grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-    md:gap-8 lg:gap-12
+    md:gap-6 lg:gap-8
     `}
 `;
 
@@ -147,6 +147,13 @@ export const FAQ = styled.div`
         font-normal
         `}
     }
+
+    h4 {
+        ${tw`
+        mt-4 mb-1
+        p-0
+        `}
+    }
 `;
 
 export const QuestionsContainer = styled.div`
@@ -190,7 +197,6 @@ export const ConnectWallet = styled.div`
         rounded-md
         p-2
         text-xl
-        
 
         bg-gradient-to-br from-yellow-400 to-yellow-200
         hover:(bg-gradient-to-tl from-yellow-200 to-yellow-100)

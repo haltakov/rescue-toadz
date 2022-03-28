@@ -22,7 +22,7 @@ const Footer = () => {
             <p>
                 All code of the website and the smart contract is{" "}
                 <a href="https://github.com/haltakov/rescue-toadz" target="_blank">
-                    open-source
+                    open source
                 </a>
                 .
             </p>

@@ -155,32 +155,21 @@ const HomePage = () => {
                     promise to be the perfect guest!
                 </h3>
 
-                {/* <p>
-                    <strong>Mint a toad</strong> by donating 0.01 eth, and it will gratefully hop straight into your
-                    wallet
-                </p>
                 <p>
-                    <strong>Match or increase the last donation</strong> to host an already minted toad in your wallet.
-                </p>
-                <p>
-                    If someone else offers to host your toad, it will bid you a fond farewell for your kindness and
-                    leave you a <strong>pair of glasses as a memento</strong>
-                </p> */}
-
-                <p className="mx-auto max-w-xl">
                     Simply <strong>mint a toad by donating 0.01 eth</strong>, and it will gratefully hop straight into
-                    your wallet. You can also <strong>offer to host</strong> an already minted toad in your wallet by{" "}
+                    your wallet.
+                    <br /> You can also <strong>offer to host</strong> an already minted toad in your wallet by{" "}
                     <strong>matching or increasing the last donation</strong>. It will bid you a fond farewell to its
                     previous host and leave them a <strong>pair of glasses as a memento</strong>
                 </p>
 
-                <h3>
+                <p>
                     100% of the funds raised go directly via{" "}
                     <a href="https://unchain.fund/" target="_blank">
-                        Uncahin Fund
+                        Unchain Fund
                     </a>{" "}
                     to the Ukraine humanitarian effort
-                </h3>
+                </p>
             </Explanation>
 
             <ConnectWallet>
@@ -222,7 +211,6 @@ const HomePage = () => {
             <Collection>
                 {collection.map((nft) => (
                     <NFT key={nft.id}>
-                        <h3>{nft.name}</h3>
                         <a
                             {...(nft.lastPrice.gt(0)
                                 ? { href: `${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`, target: "_blank" }
@@ -237,17 +225,15 @@ const HomePage = () => {
                                 />
                             </div>
                         </a>
-                        <h4>
-                            {!nft.lastPrice.eq(0) && (
-                                <>
-                                    Owned by{" "}
-                                    <a href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
-                                        {nft.owner.slice(2, 8).toUpperCase()}
-                                    </a>{" "}
-                                    for donating <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
-                                </>
-                            )}
-                        </h4>
+                        {!nft.lastPrice.eq(0) && (
+                            <h4>
+                                Owned by{" "}
+                                <a href={`${OPENSEA_URL}/assets/${CONTRACT_ADDRESS}/${nft.id}`}>
+                                    {nft.owner.slice(2, 8).toUpperCase()}
+                                </a>{" "}
+                                for donating <strong>{ethers.utils.formatEther(nft.lastPrice)} ETH</strong>
+                            </h4>
+                        )}
                         <NFTButtonContainer>
                             {contractHandler.getProvider() && nft.lastPrice.eq(0) && (
                                 <button onClick={() => handleMintButton(nft.id)} disabled={loadingButton === nft.id}>
@@ -292,13 +278,13 @@ const HomePage = () => {
                 <QuestionsContainer>
                     <div>
                         <h4>Do I get an NFT if I mint a toad?</h4>
-                        <p>Yes, you will get an NFT with the image of the toad that you minted.</p>
+                        <p>Yes, you will get an NFT with the specific image of the toad that you chose to mint.</p>
                     </div>
                     <div>
-                        <h4>All toadz are minted, can I get one?</h4>
+                        <h4>All toadz are minted, now what?</h4>
                         <p>
-                            Yes, you can either match or increase the last donation for a toad. It will then directly
-                            hop into your wallet.
+                            You can either match or increase the last donation for a toad and it will directly hop into
+                            your wallet.
                         </p>
                     </div>
                     <div>
@@ -309,7 +295,7 @@ const HomePage = () => {
                         </p>
                     </div>
                     <div>
-                        <h4>Can I stop the toad leaving my wallet?</h4>
+                        <h4>Can I stop a toad leaving my wallet?</h4>
                         <p>
                             No. This is a novel feature we coded into the{" "}
                             <a
