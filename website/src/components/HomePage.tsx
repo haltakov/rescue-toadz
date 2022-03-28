@@ -357,7 +357,8 @@ const HomePage = () => {
                             href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E"
                         >
                             Rescue Toadz
-                        </a>
+                        </a>{" "}
+                        (secondary sales are disabled)
                     </li>
 
                     <li>
