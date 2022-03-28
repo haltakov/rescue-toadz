@@ -5,6 +5,21 @@ export const HeaderContainer = styled.div`
     text-center
     `}
 
+    div {
+        ${tw`
+        mt-8
+        flex flex-row flex-wrap
+        justify-center
+        gap-12
+        `}
+
+        img {
+            ${tw`
+            h-16
+            `}
+        }
+    }
+
     h1 {
         ${tw`
         text-5xl md:text-7xl
