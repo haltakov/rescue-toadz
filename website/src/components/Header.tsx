@@ -7,7 +7,7 @@ const Header = () => {
             <h2>
                 A collection of 18 toadz travelling the blockchain to raise funds for humanitarian aid to the Ukraine
             </h2>
-            <OpenseaLink>
+            {/* <OpenseaLink>
                 <a target="_blank" href="https://testnets.opensea.io/collection/rescue-toadz-v6">
                     <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -16,7 +16,7 @@ const Header = () => {
                         />
                     </svg>
                 </a>
-            </OpenseaLink>
+            </OpenseaLink> */}
         </HeaderContainer>
     );
 };
