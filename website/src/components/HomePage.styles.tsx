@@ -214,7 +214,7 @@ export const ImportantInfo = styled.div`
     ${tw`
     text-center
     mb-12
-    max-w-2xl
+    max-w-3xl
     mx-auto
     `}
 

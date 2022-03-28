@@ -351,6 +351,14 @@ const HomePage = () => {
                     </li>
 
                     <li>
+                        <strong>Charity</strong>{" "}
+                        <a target="_blank" href="https://unchain.fund/">
+                            Unchain Ukraine
+                        </a>{" "}
+                        (0x10E1439455BD2624878b243819E31CfEE9eb721C)
+                    </li>
+
+                    <li>
                         <strong>OpenSea collection</strong>{" "}
                         <a
                             target="_blank"
