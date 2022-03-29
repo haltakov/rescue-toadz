@@ -52,7 +52,7 @@ contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
      * @dev Default constructor
      */
     constructor()
-        ERC1155("ipfs://QmUA6fyAHnKGMdyTPjmwK96kCFLMwgwtVvfFnrVWKNT4kF/")
+        ERC1155("ipfs://QmXRvBcDGpGYVKa7DpshY4UJQrSHH4ArN2AotHHjDS3BHo/")
     {}
 
     /**
