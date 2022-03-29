@@ -254,7 +254,7 @@ export const Notification = styled.div`
     top-0
     right-0
     mx-4
-    mt-28
+    mt-4
     `}
 
     div {
