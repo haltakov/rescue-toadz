@@ -68,7 +68,7 @@ contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
      * @dev Mint a token
      * @param tokenId id of the token to be minted
      */
-    function mint(uint256 tokenId) external payable {
+    function mint(uint256 tokenId) external payable whenNotPaused {
         require(
             tokenId <= SINGLE_EDITIONS_SUPPLY,
             "Cannot mint token with id greater than SINGLE_EDITIONS_SUPPLY"
@@ -91,7 +91,7 @@ contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
      * @dev Capture a token from another wallet
      * @param tokenId id of the token to be captured
      */
-    function capture(uint256 tokenId) external payable {
+    function capture(uint256 tokenId) external payable whenNotPaused {
         require(
             tokenId <= SINGLE_EDITIONS_SUPPLY,
             "Cannot capture a token with id greater than SINGLE_EDITIONS_SUPPLY"
@@ -182,14 +182,14 @@ contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
     /**
      * @dev Pause the contract
      */
-    function pause() public onlyOwner {
+    function pause() external onlyOwner {
         _pause();
     }
 
     /**
      * @dev Unpause the contract
      */
-    function unpause() public onlyOwner {
+    function unpause() external onlyOwner {
         _unpause();
     }
 
