@@ -225,17 +225,42 @@ describe("RescueToadz", () => {
         expect(await contract.uri(1)).to.equal("ipfs://Qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/1");
     });
 
+    it("should only allow owner to set the token URI", async () => {
+        await expect(contract.setURI("test")).to.not.be.reverted;
+
+        await expect(contract.connect(addr1).setURI("test")).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Ownable: caller is not the owner'"
+        );
+    });
+
     it("should pause and unpause the contract", async () => {
         await contract.pause();
         expect(await contract.paused()).to.equal(true);
+
+        await contract.unpause();
+        expect(await contract.paused()).to.equal(false);
+    });
+
+    it("should not mint when contract is paused", async () => {
+        await contract.pause();
 
         await expect(contract.mint(1, { value: await mintPrice })).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'Pausable: paused'"
         );
 
         await contract.unpause();
-        expect(await contract.paused()).to.equal(false);
-
         await expect(contract.mint(1, { value: await mintPrice })).to.not.be.reverted;
+    });
+
+    it("should not capture when contract is paused", async () => {
+        await contract.mint(1, { value: await mintPrice });
+
+        await contract.pause();
+        await expect(contract.capture(1, { value: await mintPrice })).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Pausable: paused'"
+        );
+
+        await contract.unpause();
+        await expect(contract.capture(1, { value: await mintPrice })).to.not.be.reverted;
     });
 });
