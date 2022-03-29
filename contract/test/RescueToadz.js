@@ -87,7 +87,7 @@ describe("RescueToadz", () => {
     it("should return the specified token uri", async () => {
         await contract.mint(1, { value: mintPrice });
 
-        expect(await contract.uri(1)).to.equal("ipfs://QmUA6fyAHnKGMdyTPjmwK96kCFLMwgwtVvfFnrVWKNT4kF/1");
+        expect(await contract.uri(1)).to.equal("ipfs://QmXRvBcDGpGYVKa7DpshY4UJQrSHH4ArN2AotHHjDS3BHo/1");
     });
 
     it("should not get the uri for non-existing tokens", async () => {
@@ -214,5 +214,28 @@ describe("RescueToadz", () => {
         await expect(contract.setApprovalForAll(addr1.address, 1)).to.be.revertedWith(
             "VM Exception while processing transaction: reverted with reason string 'setApprovalForAll is not supported'"
         );
+    });
+
+    it("should set the token URI", async () => {
+        await contract.mint(1, { value: mintPrice });
+
+        expect(await contract.uri(1)).to.equal("ipfs://QmXRvBcDGpGYVKa7DpshY4UJQrSHH4ArN2AotHHjDS3BHo/1");
+
+        await contract.setURI("ipfs://Qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/");
+        expect(await contract.uri(1)).to.equal("ipfs://Qxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/1");
+    });
+
+    it("should pause and unpause the contract", async () => {
+        await contract.pause();
+        expect(await contract.paused()).to.equal(true);
+
+        await expect(contract.mint(1, { value: await mintPrice })).to.be.revertedWith(
+            "VM Exception while processing transaction: reverted with reason string 'Pausable: paused'"
+        );
+
+        await contract.unpause();
+        expect(await contract.paused()).to.equal(false);
+
+        await expect(contract.mint(1, { value: await mintPrice })).to.not.be.reverted;
     });
 });

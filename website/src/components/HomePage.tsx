@@ -300,7 +300,7 @@ const HomePage = () => {
                         <p>
                             No. This is a novel feature we coded into the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E#code"
+                                href="https://rinkeby.etherscan.io/address/0x54020D66fd3089036f10720ffa9977b072d208b4#code"
                                 target="_blank"
                             >
                                 smart contract
@@ -326,7 +326,7 @@ const HomePage = () => {
                             </a>{" "}
                             . This happens right away directly in the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E#code"
+                                href="https://rinkeby.etherscan.io/address/0x54020D66fd3089036f10720ffa9977b072d208b4#code"
                                 target="_blank"
                             >
                                 smart contract
@@ -344,9 +344,9 @@ const HomePage = () => {
                         <strong>Smart contract</strong>{" "}
                         <a
                             target="_blank"
-                            href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E"
+                            href="https://rinkeby.etherscan.io/address/0x54020D66fd3089036f10720ffa9977b072d208b4"
                         >
-                            0x9243C87Fc1b089671921c0976cA11a8fcf69283E
+                            0x54020D66fd3089036f10720ffa9977b072d208b4
                         </a>
                     </li>
 
@@ -360,10 +360,7 @@ const HomePage = () => {
 
                     <li>
                         <strong>OpenSea collection</strong>{" "}
-                        <a
-                            target="_blank"
-                            href="https://rinkeby.etherscan.io/address/0x9243C87Fc1b089671921c0976cA11a8fcf69283E"
-                        >
+                        <a target="_blank" href="https://testnets.opensea.io/collection/rescue-toadz-v7">
                             Rescue Toadz
                         </a>{" "}
                         (secondary sales are disabled)

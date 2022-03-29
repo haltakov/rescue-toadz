@@ -8,10 +8,10 @@ IMAGES_PATH = Path("../images")
 IMAGE_URL_IPFS = "ipfs://QmfUL123vUBV47YXTTdPW3ezkvshve9PG6DYYYvtRoYfvt"
 
 NAME_TOKEN = "Rescue Toad #"
-DESCRIPTION_TOKEN = "Thank you for hosting this toad in your wallet and donating to the Ukraine humanitarian effort! The toad will stay in your wallet as long as nobody else has matched or icreased your donation."
+DESCRIPTION_TOKEN = "This is a Rescue Toad, raising funds for the Ukraine humanitarian effort.\n\nThe toad will stay in this wallet until someone else matches or increases the last donation."
 
 NAME_POAP = "Rescue Toad Glasses #"
-DESCRIPTION_POAP = "Thank you for hosting a toad in your wallet and donating to the Ukraine humanitarian effort. It seems that somebody else matched or increased your donation, so the toad hopped into their wallet. However, it left you these pair of glasses as memento for your time together and your kind donation."
+DESCRIPTION_POAP = "A pair of Rescue Toad glasses.\n\nThese were left as a memento by the Rescue Toad that was once hosted in this wallet. Thank you for contributing towards the Ukraine humanitarian effort."
 
 
 def writeMetadataJSON(path, file_id, id, name, type, description):
