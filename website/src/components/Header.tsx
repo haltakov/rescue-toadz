@@ -8,9 +8,7 @@ const Header = () => {
                 <img src="/header_toadz.png" alt="Rescue Toadz header image" />
             </div>
 
-            <h2>
-                A collection of 18 toadz travelling the blockchain to raise funds for humanitarian aid to the Ukraine
-            </h2>
+            <h2>A collection of 18 toadz traveling the blockchain to raise funds for humanitarian aid to Ukraine</h2>
         </HeaderContainer>
     );
 };

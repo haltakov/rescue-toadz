@@ -167,7 +167,7 @@ const HomePage = () => {
                 <p>
                     100% of the funds raised go directly via{" "}
                     <a href="https://unchain.fund/" target="_blank">
-                        Unchain Fund
+                        Unchain
                     </a>{" "}
                     to the Ukraine humanitarian effort
                 </p>
@@ -304,7 +304,7 @@ const HomePage = () => {
                                 target="_blank"
                             >
                                 smart contract
-                            </a>{" "}
+                            </a>
                             . This encourages people to donate more.
                         </p>
                     </div>
@@ -312,8 +312,8 @@ const HomePage = () => {
                     <div>
                         <h4>Can I sell my toad or my glasses?</h4>
                         <p>
-                            No. Listing of the toadz and the glasses on a secondary exchange like OpenSea is blocked in
-                            the cotnract.
+                            No. Listing the toadz and the glasses on a secondary exchange like OpenSea is blocked in the
+                            contract.
                         </p>
                     </div>
 
@@ -322,8 +322,8 @@ const HomePage = () => {
                         <p>
                             100% of the collected funds go to{" "}
                             <a href="https://unchain.fund/" target="_blank">
-                                Uncahin Fund
-                            </a>{" "}
+                                Unchain Ukraine
+                            </a>
                             . This happens right away directly in the{" "}
                             <a
                                 href="https://rinkeby.etherscan.io/address/0x54020D66fd3089036f10720ffa9977b072d208b4#code"
