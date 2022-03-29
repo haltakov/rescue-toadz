@@ -1,26 +1,38 @@
-// SPDX-License-Identifier: MIT
+/* SPDX-License-Identifier: MIT
+
+    @**********@   @***********   @***********   @***********   #***@   @***(   ***********        @**********#   @***********   @***********   @*******@      .***********               
+    @***@@@@***@   @***@@@@@@@@   @***@@@@@@@@   @***@@@@@@@@   #***@   @***(   ****@@@@@@@        @@@@****@@@@   @***@@@@****   @***@@@@****   @***@@@@@@@@   .@@@@@@@%***               
+    @***    ***@   @***@          @***@          @***@          #***@   @***(   ****                   ****       @***@   ****   @***@   ****   @***@   (***           @***               
+    @*******       @*******       @***********   @***@          #***@   @***(   *******@               ****       @***@   ****   @***********   @***@   (***       %***@                  
+    @***@@@@@@@@   @***@@@@       @@@@@@@@****   @***@          #***@   @***(   ****@@@@               ****       @***@   ****   @***@@@@****   @***@   (***   .@@@@@@@@                  
+    @***    ***@   @***@                  ****   @***@          #***@   @***(   ****                   ****       @***@   ****   @***@   ****   @***@   (***   .***&                      
+    @***    ***@   @***********   @***********   @***********   #***********(   ***********            ****       @***********   @***@   ****   @*******@      .***********               
+    @@@@    @@@@   @@@@@@@@@@@@   @@@@@@@@@@@@   @@@@@@@@@@@@   #@@@@@@@@@@@(   @@@@@@@@@@@            @@@@       @@@@@@@@@@@@   @@@@@   @@@@   @@@@@@@@@      .@@@@@@@@@@@               
+
+*/
 
 /**
  *   @title Rescue Toadz
  *   @author Vladimir Haltakov (@haltakov)
- *   @notice ERC1155 contract for a collection of Ukrainian themed toadz
- *   @notice All proceeds from minting and capturing tokens are donated to charity for Ukraine
+ *   @notice ERC1155 contract for a collection of Ukrainian themed Rescue Toadz
+ *   @notice All proceeds from minting and capturing tokens are donated for humanitarian help for Ukraine via Unchain (0x10E1439455BD2624878b243819E31CfEE9eb721C).
  *   @notice The contract represents two types of tokens: single edition tokens (id <= SINGLE_EDITIONS_SUPPLY) and multiple edition POAP tokens (id > SINGLE_EDITIONS_SUPPLY)
  *   @notice Only the single edition tokens are allowed to be minted or captured.
- *   @notice The contract implements a special function capture, that allows anybody to transfer a single edition token to their own wallet by donating more than the last owner.
+ *   @notice The contract implements a special function capture, that allows anybody to transfer a single edition token to their wallet by matching or increasing the last donation.
  */
 
 pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract RescueToadz is ERC1155, ERC1155Supply, Ownable {
+contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
     using Strings for uint256;
 
-    // Number of single edition tokens. For each single edition token there will be a corresponding multiple edition token.
+    // Number of single edition tokens. For each single edition token, there will be a corresponding multiple edition token.
     uint256 public constant SINGLE_EDITIONS_SUPPLY = 18;
 
     // Mint price
@@ -52,7 +64,7 @@ contract RescueToadz is ERC1155, ERC1155Supply, Ownable {
 
     /**
      * @notice Only allowed for tokens with id <= SINGLE_EDITIONS_SUPPLY
-     * @notice Only one token for every id <= SINGLE_EDITIONS_SUPPLY is allowed to be minted (smiliar to an ERC721 token)
+     * @notice Only one token for every id <= SINGLE_EDITIONS_SUPPLY is allowed to be minted (similar to an ERC721 token)
      * @dev Mint a token
      * @param tokenId id of the token to be minted
      */
@@ -74,7 +86,7 @@ contract RescueToadz is ERC1155, ERC1155Supply, Ownable {
 
     /**
      * @notice Only allowed for tokens with id <= SINGLE_EDITIONS_SUPPLY
-     * @notice This function allows to transfer a token from another wallet by paying more than the last price paid
+     * @notice This function allows transferring a token from another wallet by paying more than the last price paid
      * @notice This function will mint a POAP token (id > SINGLE_EDITIONS_SUPPLY) in the wallet from which the token is captured
      * @dev Capture a token from another wallet
      * @param tokenId id of the token to be captured
@@ -159,6 +171,28 @@ contract RescueToadz is ERC1155, ERC1155Supply, Ownable {
         return string(abi.encodePacked(baseURI, tokenId.toString()));
     }
 
+    /**
+     * @dev Change the base URI
+     * @param newuri the new URI
+     */
+    function setURI(string memory newuri) external onlyOwner {
+        _setURI(newuri);
+    }
+
+    /**
+     * @dev Pause the contract
+     */
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    /**
+     * @dev Unpause the contract
+     */
+    function unpause() public onlyOwner {
+        _unpause();
+    }
+
     function _beforeTokenTransfer(
         address operator,
         address from,
@@ -166,7 +200,7 @@ contract RescueToadz is ERC1155, ERC1155Supply, Ownable {
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
-    ) internal override(ERC1155, ERC1155Supply) {
+    ) internal override(ERC1155, ERC1155Supply) whenNotPaused {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 }
