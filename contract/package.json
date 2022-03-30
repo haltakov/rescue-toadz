@@ -9,6 +9,8 @@
         "coverage": "hardhat coverage",
         "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network rinkeby",
         "verify:rinkeby": "npx hardhat verify --network rinkeby",
+        "deploy:mainnet": "npx hardhat run scripts/deploy.js --network mainnet",
+        "verify:mainnet": "npx hardhat verify --network mainnet",
         "lint": "solhint --max-warnings 0 'contracts/**/*.sol'",
         "slither": "slither . --exclude-dependencies --exclude-informational --compile-force-framework hardhat --exclude reentrancy-no-eth,reentrancy-events,external-function"
     },

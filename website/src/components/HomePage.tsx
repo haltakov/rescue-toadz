@@ -300,7 +300,7 @@ const HomePage = () => {
                         <p>
                             No. This is a novel feature we coded into the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0x3a926b0d5850EAC6ba3fE918cEc810d3bE8A984B#code"
+                                href="https://rinkeby.etherscan.io/address/0xBa342641B850794B2DAb7E8143AA7732B4EE7418#code"
                                 target="_blank"
                             >
                                 smart contract
@@ -326,7 +326,7 @@ const HomePage = () => {
                             </a>
                             . This happens right away directly in the{" "}
                             <a
-                                href="https://rinkeby.etherscan.io/address/0x3a926b0d5850EAC6ba3fE918cEc810d3bE8A984B#code"
+                                href="https://rinkeby.etherscan.io/address/0xBa342641B850794B2DAb7E8143AA7732B4EE7418#code"
                                 target="_blank"
                             >
                                 smart contract
@@ -344,9 +344,9 @@ const HomePage = () => {
                         <strong>Smart contract</strong>{" "}
                         <a
                             target="_blank"
-                            href="https://rinkeby.etherscan.io/address/0x3a926b0d5850EAC6ba3fE918cEc810d3bE8A984B"
+                            href="https://rinkeby.etherscan.io/address/0xBa342641B850794B2DAb7E8143AA7732B4EE7418"
                         >
-                            0x3a926b0d5850EAC6ba3fE918cEc810d3bE8A984B
+                            0xBa342641B850794B2DAb7E8143AA7732B4EE7418
                         </a>
                     </li>
 
