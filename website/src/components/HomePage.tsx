@@ -19,7 +19,7 @@ import {
 import { ContractHandler, useContractHandler } from "./SmartContract/SmartContract";
 import { nth, reduceRight } from "lodash";
 
-const OPENSEA_URL = process.env.REACT_APP_OPENSEA_URL || "https://testnets.opensea.io";
+const OPENSEA_URL = process.env.REACT_APP_OPENSEA_URL || "https://opensea.io";
 
 type NFT = {
     id: number;
@@ -360,7 +360,7 @@ const HomePage = () => {
 
                     <li>
                         <strong>OpenSea collection</strong>{" "}
-                        <a target="_blank" href="https://testnets.opensea.io/collection/rescue-toadz-v7">
+                        <a target="_blank" href="https://opensea.io/collection/rescue-toadz">
                             Rescue Toadz
                         </a>{" "}
                         (secondary sales are disabled)
