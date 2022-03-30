@@ -81,7 +81,8 @@ contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
         _lastPrice[tokenId] = msg.value;
         _mint(msg.sender, tokenId, 1, "");
 
-        payable(CHARITY_ADDRESS).transfer(msg.value);
+        (bool sent, ) = payable(CHARITY_ADDRESS).call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
@@ -109,7 +110,8 @@ contract RescueToadz is ERC1155, Ownable, Pausable, ERC1155Supply {
         _safeTransferFrom(lastOwner, msg.sender, tokenId, 1, "");
         _mint(lastOwner, SINGLE_EDITIONS_SUPPLY + tokenId, 1, "");
 
-        payable(CHARITY_ADDRESS).transfer(msg.value);
+        (bool sent, ) = payable(CHARITY_ADDRESS).call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
