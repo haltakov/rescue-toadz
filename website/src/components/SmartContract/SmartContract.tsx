@@ -3,7 +3,7 @@ import { BigNumber, Contract, Signer, ethers } from "ethers";
 
 import CONTRACT_ABI from "./contract_abi.json";
 
-export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0xBa342641B850794B2DAb7E8143AA7732B4EE7418";
+export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "0x57605D3A2C7726e9A7801307AF0C893bA5199F66";
 export const CONTRAT_NETWORK_ID = process.env.REACT_APP_SMART_CONTRACT_NETWORK_ID || "0x1";
 export const COLLECTION_SIZE = parseInt(process.env.REACT_APP_COLLECTION_SIZE || "18");
 
