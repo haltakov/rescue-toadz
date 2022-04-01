@@ -369,7 +369,7 @@ const HomePage = () => {
                     <li>
                         <strong>Project code</strong>{" "}
                         <a target="_blank" href="https://github.com/haltakov/rescue-toadz">
-                            GitHup repository
+                            GitHub repository
                         </a>
                     </li>
 
