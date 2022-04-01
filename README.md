@@ -11,7 +11,7 @@ You can also **offer to host** an already minted toad in your wallet by **matchi
 
 ### [https://rescuetoadz.xyz/](https://rescuetoadz.xyz/).
 
-[![Rescue Toadz Website](assets/website_screenshot.jpg)]((https://rescuetoadz.xyz/)
+[![Rescue Toadz Website](assets/website_screenshot.jpg)](https://rescuetoadz.xyz/)
 
 ## Repository
 
