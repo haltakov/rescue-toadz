@@ -31,11 +31,11 @@ interface RescueToadz {
 contract RescueToadzNounsExecutor {
     // Address of the Rescue Toadz contract
     address internal constant RESCUE_TOADZ_CONTRACT =
-        0x03115Dafa9c3F23BEB8ECDA7F099fD4C09981E82;
+        0x57605D3A2C7726e9A7801307AF0C893bA5199F66;
 
     // Address of the Nouns DAO contract that is allowed to withdraw ERC-1155 tokens
     address internal constant NOUNS_DAO =
-        0x9fecC154ABa86dB310cC3A81bb65f81155d6Bf98;
+        0x0BC3807Ec262cB779b38D65b38158acC3bfedE10;
 
     constructor() {}
 
@@ -55,6 +55,10 @@ contract RescueToadzNounsExecutor {
             RescueToadz(RESCUE_TOADZ_CONTRACT).capture{value: msg.value}(
                 tokenId
             );
+        } else {
+            // If the toad will not be captured, return the funds to the sender
+            (bool sent, ) = payable(msg.sender).call{value: msg.value}("");
+            require(sent, "Failed to send Ether");
         }
     }
 
