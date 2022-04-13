@@ -8,6 +8,7 @@
         "gas": "REPORT_GAS=1 hardhat test",
         "coverage": "hardhat coverage",
         "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network rinkeby",
+        "deployNounsExecutor:rinkeby": "npx hardhat run scripts/deployNounsExecutor.js --network rinkeby",
         "verify:rinkeby": "npx hardhat verify --network rinkeby",
         "deploy:mainnet": "npx hardhat run scripts/deploy.js --network mainnet",
         "verify:mainnet": "npx hardhat verify --network mainnet",
